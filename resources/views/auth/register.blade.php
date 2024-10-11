@@ -2,11 +2,32 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Name -->
+        <!-- NIM -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-label for="nim" :value="__('NIM')" />
+            <x-text-input id="nim" class="block mt-1 w-full appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" type="number" name="nim" :value="old('name')" required autofocus autocomplete="nim" inputmode="numeric" min="0"/>
+            <x-input-error :messages="$errors->get('nim')" class="mt-2" />
+        </div>
+
+        <!-- Nama -->
+        <div class="mt-4">
+            <x-input-label for="name" :value="__('Nama')" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
+
+        <!-- Jurusan -->
+        <div class="mt-4">
+            <x-input-label for="jurusan" :value="__('Jurusan')" />
+            <x-text-input id="jurusan" class="block mt-1 w-full" type="text" name="jurusan" :value="old('jurusan')" required autocomplete="jurusan" />
+            <x-input-error :messages="$errors->get('jurusan')" class="mt-2" />
+        </div>
+
+        <!-- Fakultas -->
+        <div class="mt-4">
+            <x-input-label for="fakultas" :value="__('Fakultas')" />
+            <x-text-input id="fakultas" class="block mt-1 w-full" type="text" name="fakultas" :value="old('fakultas')" required autocomplete="fakultas" />
+            <x-input-error :messages="$errors->get('fakultas')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
@@ -41,7 +62,7 @@
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+                {{ __('Sudah terdaftar?') }}
             </a>
 
             <x-primary-button class="ms-4">
