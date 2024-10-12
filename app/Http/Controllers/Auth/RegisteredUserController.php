@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Fakultas;
+use App\Models\Mahasiswa;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $data = Fakultas::with('jurusan')->get();
+        return view('auth.register', compact('data'));
     }
 
     /**
@@ -30,9 +33,10 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'nim' => ['required', 'numeric', 'min:0', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'jurusan' => ['required', 'string', 'max:255'],
+            'nim' => ['required', 'numeric', 'digits_between:0,8'],
+            'name' => ['required'],
+            'fakultas' => ['required'],
+            'jurusan' => ['required'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -43,7 +47,15 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        $user->assignRole('mahasiswa');
+
+        Mahasiswa::create([
+            'user_id' => $user->id,
+            'fakultas_id' => $request->fakultas,
+            'jurusan_id' => $request->jurusan,
+            'nim' => $request->nim,
+            'verifikasi' => 'pending'
+        ]);
 
         Auth::login($user);
 

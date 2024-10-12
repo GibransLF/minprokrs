@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Mahasiswa;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'loginname' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -41,12 +42,25 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $loginname = $this->input('loginname');
+        $password = $this->input('password');
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        // Deteksi apakah input adalah email atau nim
+        $loginField = filter_var($loginname, FILTER_VALIDATE_EMAIL) ? 'email' : 'nim';
+
+        if ($loginField === 'nim') {
+            $mahasiswa = Mahasiswa::where('nim', $loginname)->first();
+
+            if ($mahasiswa && Auth::attempt(['email' => $mahasiswa->user->email, 'password' => $password], $this->boolean('remember'))) {
+                RateLimiter::clear($this->throttleKey());
+                return;
+            }
+        }
+
+        // Jika login menggunakan email
+        if (Auth::attempt([$loginField => $loginname, 'password' => $password], $this->boolean('remember'))) {
+            RateLimiter::clear($this->throttleKey());
+            return;
         }
 
         RateLimiter::clear($this->throttleKey());

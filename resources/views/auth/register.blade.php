@@ -16,18 +16,33 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
-        <!-- Jurusan -->
-        <div class="mt-4">
-            <x-input-label for="jurusan" :value="__('Jurusan')" />
-            <x-text-input id="jurusan" class="block mt-1 w-full" type="text" name="jurusan" :value="old('jurusan')" required autocomplete="jurusan" />
-            <x-input-error :messages="$errors->get('jurusan')" class="mt-2" />
-        </div>
+        <div x-data="registerForm()">
+            <!-- Fakultas -->
+            <div class="mt-4">
+                <x-input-label for="fakultas" :value="__('Fakultas')" />
+                <select name="fakultas" id="fakultas" x-model="selectedFakultas" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <option value="" hidden>-- Pilih Fakultas --</option>
+                    <template x-for="f in fakultas" :key="f.id">
+                        <option :value="f.id" x-text="f.nama_fakultas"></option>
+                    </template>
+                </select>
+            </form>
 
-        <!-- Fakultas -->
-        <div class="mt-4">
-            <x-input-label for="fakultas" :value="__('Fakultas')" />
-            <x-text-input id="fakultas" class="block mt-1 w-full" type="text" name="fakultas" :value="old('fakultas')" required autocomplete="fakultas" />
-            <x-input-error :messages="$errors->get('fakultas')" class="mt-2" />
+            <!-- Jurusan -->
+            <div class="mt-4">
+                <x-input-label for="jurusan" :value="__('Jurusan')" />
+                <select name="jurusan" id="jurusan" x-model="selectedJurusan" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="selectedFakultas === ''" required>
+                    <template x-if="selectedFakultas === ''">
+                        <option value="" hidden>-- Pilih Fakultas dahulu --</option>
+                    </template>
+                    <template x-if="this.selectedFakultas !== ''">
+                        <option value="" hidden>-- Pilih Jurusan --</option>
+                    </template>
+                    <template x-for="j in filteredJurusan" :key="j.id">
+                        <option :value="j.id" x-text="j.nama_jurusan"></option>
+                    </template>
+                </select>
+            </div>
         </div>
 
         <!-- Email Address -->
@@ -71,3 +86,24 @@
         </div>
     </form>
 </x-guest-layout>
+
+<script>
+    function registerForm() {
+        return {
+            fakultas: @json($data), // Data fakultas beserta jurusannya dari controller
+            selectedFakultas: '',       // Fakultas yang dipilih
+            selectedJurusan: '',        // Jurusan yang dipilih
+
+            // Filter jurusan berdasarkan fakultas yang dipilih
+            get filteredJurusan() {
+                if (this.selectedFakultas === '') {
+                    return [];
+                }
+
+                // Cari fakultas yang dipilih dan ambil jurusannya
+                let selectedFakultas = this.fakultas.find(f => f.id == this.selectedFakultas);
+                return selectedFakultas ? selectedFakultas.jurusan : [];
+            }
+        }
+    }
+</script>
