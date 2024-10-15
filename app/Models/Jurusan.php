@@ -19,7 +19,7 @@ class Jurusan extends Model
 
     public function fakultas(): BelongsTo
     {
-        return $this->belongsTo(Jurusan::class);
+        return $this->belongsTo(Fakultas::class);
     }
     public function mahasiswa(): HasMany
     {

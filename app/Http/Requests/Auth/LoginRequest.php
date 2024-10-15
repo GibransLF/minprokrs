@@ -48,6 +48,7 @@ class LoginRequest extends FormRequest
         // Deteksi apakah input adalah email atau nim
         $loginField = filter_var($loginname, FILTER_VALIDATE_EMAIL) ? 'email' : 'nim';
 
+        // Jika login dengan nim
         if ($loginField === 'nim') {
             $mahasiswa = Mahasiswa::where('nim', $loginname)->first();
 
@@ -55,15 +56,20 @@ class LoginRequest extends FormRequest
                 RateLimiter::clear($this->throttleKey());
                 return;
             }
+        } else {
+            // Jika login dengan email
+            if (Auth::attempt([$loginField => $loginname, 'password' => $password], $this->boolean('remember'))) {
+                RateLimiter::clear($this->throttleKey());
+                return;
+            }
         }
 
-        // Jika login menggunakan email
-        if (Auth::attempt([$loginField => $loginname, 'password' => $password], $this->boolean('remember'))) {
-            RateLimiter::clear($this->throttleKey());
-            return;
-        }
+        // Jika autentikasi gagal
+        RateLimiter::hit($this->throttleKey());
 
-        RateLimiter::clear($this->throttleKey());
+        throw ValidationException::withMessages([
+            'loginname' => trans('auth.failed'),
+        ]);
     }
 
     /**
