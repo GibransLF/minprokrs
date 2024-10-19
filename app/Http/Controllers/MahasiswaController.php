@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fakultas;
-use App\Models\Jurusan;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
-class JurusanController extends Controller
+class MahasiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Jurusan::with('fakultas')->get();
-        $addFakultas = Fakultas::all();
-        return view('jurusan.index', compact('data', 'addFakultas'));
+        $data = Mahasiswa::with('user','fakultas','jurusan')->get();
+        return view('mahasiswa.index', compact('data'));
     }
 
     /**
@@ -31,7 +29,7 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route('jurusan')->with('success', 'Data jurusan ditambahkan');
+        //
     }
 
     /**
@@ -64,5 +62,10 @@ class JurusanController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function changepass(string $id){
+        $data = Mahasiswa::findOrFail($id);
+        return view('mahasiswa.changepass', compact('data'));
     }
 }

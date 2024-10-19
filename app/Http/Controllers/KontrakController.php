@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fakultas;
-use App\Models\Jurusan;
 use Illuminate\Http\Request;
 
-class JurusanController extends Controller
+class KontrakController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Jurusan::with('fakultas')->get();
-        $addFakultas = Fakultas::all();
-        return view('jurusan.index', compact('data', 'addFakultas'));
+        return view('kontrak.index');
     }
 
     /**
@@ -31,15 +27,15 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route('jurusan')->with('success', 'Data jurusan ditambahkan');
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        return view('kontrak.detail');
     }
 
     /**

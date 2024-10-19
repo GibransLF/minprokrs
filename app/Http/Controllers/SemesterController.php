@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fakultas;
-use App\Models\Jurusan;
 use Illuminate\Http\Request;
 
-class JurusanController extends Controller
+class SemesterController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Jurusan::with('fakultas')->get();
-        $addFakultas = Fakultas::all();
-        return view('jurusan.index', compact('data', 'addFakultas'));
+        return view('semester.index');
     }
 
     /**
@@ -31,7 +27,7 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route('jurusan')->with('success', 'Data jurusan ditambahkan');
+        //
     }
 
     /**
