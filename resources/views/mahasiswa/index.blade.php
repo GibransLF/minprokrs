@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex itens-center">
+        <div class="flex items-center">
             <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('User Akun /') }}
             </h2>
@@ -16,8 +16,10 @@
 
             @if(session('success'))
             <x-toast type="success" :messages="[session('success')]" />
-            @elseif(session('errors'))
+            @elseif($errors->any())
             <x-toast type="error" :messages="session('errors')->all()" />
+            @elseif(session('error'))
+            <x-toast type="error" :messages="[session('error')]" />
             @endif
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -107,16 +109,16 @@
                                         class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Detail</button>
                                     @include('mahasiswa.detail')
                                     &nbsp;
-                                    <button data-modal-target="edit-modal{{$mhs->id}}"
-                                        data-modal-toggle="edit-modal{{$mhs->id}}" type="button"
+                                    <a href="{{route('mahasiswa.edit', $mhs->id)}}"
                                         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900">
                                         Ubah
-                                    </button>
-                                    @include('mahasiswa.edit')
+                                    </a>
                                     &nbsp;
                                     <button data-modal-target="delete-modal{{$mhs->id}}"
-                                        data-modal-toggle="delete-modal{{$mhs->id}}" type="button"
-                                        class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Hapus</button>
+                                        data-modal-toggle="delete-modal{{$mhs->id}}" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4
+                                        focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2
+                                        mb-2 dark:bg-red-600 dark:hover:bg-red-700
+                                        dark:focus:ring-red-900">Hapus</button>
                                     @include('mahasiswa.delete')
                                 </td>
                             </tr>
@@ -129,3 +131,25 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('selectForm', () => ({
+            fakultas: @json($dataSelect), // Data fakultas beserta jurusannya dari controller
+            selectedFakultas: '',       // Fakultas yang dipilih
+            selectedJurusan: '',        // Jurusan yang dipilih
+
+            // Filter jurusan berdasarkan fakultas yang dipilih
+            get filteredJurusan() {
+                if (this.selectedFakultas === '') {
+                    return [];
+                }
+
+                // Cari fakultas yang dipilih dan ambil jurusannya
+                let selectedFakultas = this.fakultas.find(f => f.id == this.selectedFakultas);
+                return selectedFakultas ? selectedFakultas.jurusan : [];
+            },
+        }));
+    });
+
+</script>

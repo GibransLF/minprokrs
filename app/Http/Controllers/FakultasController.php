@@ -29,7 +29,17 @@ class FakultasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'kode_fakultas' => 'required',
+            'nama_fakultas' => 'required',
+        ]);
+
+        $fakultas = new Fakultas;
+        $fakultas->kode_fakultas = $request->kode_fakultas;
+        $fakultas->nama_fakultas = $request->nama_fakultas;
+        $fakultas->save();
+
+        return redirect()->back()->with('success', 'Fakultas berhasil ditambahkan');
     }
 
     /**
@@ -53,7 +63,18 @@ class FakultasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'kode_fakultas' => 'required',
+            'nama_fakultas' => 'required',
+        ]);
+
+        $fakultas = Fakultas::findOrFail($id);
+        $fakultas->kode_fakultas = $request->kode_fakultas;
+        $fakultas->nama_fakultas = $request->nama_fakultas;
+        
+        $fakultas->save();
+
+        return redirect()->back()->with('success', 'Fakultas berhasil diubah');
     }
 
     /**
@@ -61,6 +82,11 @@ class FakultasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Fakultas::destroy($id);
+            return redirect()->back()->with('success', 'Fakultas berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Fakultas gagal dihapus');
+        }
     }
 }

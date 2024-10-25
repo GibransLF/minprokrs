@@ -31,6 +31,18 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'kode_jurusan' => 'required',
+            'nama_jurusan' => 'required',
+            'fakultas_id' => 'required',
+        ]);
+
+        $jurusan = new Jurusan;
+        $jurusan->fakultas_id = $request->fakultas_id;
+        $jurusan->kode_jurusan = $request->kode_jurusan;
+        $jurusan->nama_jurusan = $request->nama_jurusan;
+        $jurusan->save();
+
         return redirect()->route('jurusan')->with('success', 'Data jurusan ditambahkan');
     }
 
@@ -55,7 +67,19 @@ class JurusanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'fakultas_id' => 'required',
+            'kode_jurusan' => 'required',
+            'nama_jurusan' => 'required',
+        ]);
+
+        $jurusan = Jurusan::findOrFail($id);
+        $jurusan->fakultas_id = $request->fakultas_id;
+        $jurusan->kode_jurusan = $request->kode_jurusan;
+        $jurusan->nama_jurusan = $request->nama_jurusan;
+        $jurusan->save();
+
+        return redirect()->route('jurusan')->with('success', 'Data jurusan diubah');
     }
 
     /**
@@ -63,6 +87,11 @@ class JurusanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Jurusan::destroy($id);
+            return redirect()->back()->with('success', 'Jurusan berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Jurusan gagal dihapus');
+        }
     }
 }

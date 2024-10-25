@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fakultas;
 use App\Models\Mahasiswa;
+use App\Models\User;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class MahasiswaController extends Controller
 {
@@ -13,7 +18,8 @@ class MahasiswaController extends Controller
     public function index()
     {
         $data = Mahasiswa::with('user','fakultas','jurusan')->get();
-        return view('mahasiswa.index', compact('data'));
+        $dataSelect = Fakultas::with('jurusan')->get();
+        return view('mahasiswa.index', compact('data', 'dataSelect'));
     }
 
     /**
@@ -29,7 +35,32 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'nim' => ['required', 'numeric', 'digits_between:0,8', 'unique:'.Mahasiswa::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'fakultas' => 'required',
+            'jurusan' => 'required',
+            'password' => ['required', 'confirmed', password::defaults()],
+        ]);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $user->assignRole('mahasiswa');
+
+        $mahasiswa = new Mahasiswa;
+        $mahasiswa->user_id = $user->id;
+        $mahasiswa->fakultas_id = $request->fakultas;
+        $mahasiswa->jurusan_id = $request->jurusan;
+        $mahasiswa->nim = $request->nim;
+        $mahasiswa->verifikasi = 'pending';
+        $mahasiswa->save();
+
+        return redirect('/mahasiswa')->with('success', 'Data Mahasiswa berhasil ditambahkan');
     }
 
     /**
@@ -45,7 +76,10 @@ class MahasiswaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $mhs = Mahasiswa::with('user', 'fakultas', 'jurusan')->findOrFail($id);
+        // dd($mahasiswa);
+        $dataSelect = Fakultas::with('jurusan')->get();
+        return view('mahasiswa.edit', compact('mhs', 'dataSelect'));
     }
 
     /**
@@ -53,7 +87,28 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user_id = Mahasiswa::findOrFail($id)->user_id;
+
+        $request->validate([
+            'name' => 'required',
+            'nim' => ['required', 'numeric', 'digits_between:0,8', Rule::unique('mahasiswa')->ignore($id),],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users')->ignore($user_id),],
+            'fakultas' => 'required',
+            'jurusan' => 'required',
+        ]);
+
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        $mahasiswa->fakultas_id = $request->fakultas;
+        $mahasiswa->jurusan_id = $request->jurusan;
+        $mahasiswa->nim = $request->nim;
+        $mahasiswa->save();
+        
+        $user = User::findOrFail($mahasiswa->user_id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        return redirect()->route('mahasiswa')->with('success', 'Data Mahasiswa berhasil diubah');
     }
 
     /**
@@ -61,11 +116,45 @@ class MahasiswaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user_id = Mahasiswa::with('user')->findOrFail($id)->user_id;
+        $user = User::findOrFail($user_id); 
+        try {
+            Mahasiswa::destroy($id);
+            $user->removeRole('mahasiswa');
+            User::destroy($user_id);
+            return redirect()->back()->with('success', 'Mahasiswa berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Mahasiswa gagal dihapus '. $e->getMessage());
+        }
     }
 
-    public function changepass(string $id){
+    public function verificationVerified(string $id){
         $data = Mahasiswa::findOrFail($id);
-        return view('mahasiswa.changepass', compact('data'));
+        $data->verifikasi = 'verified';
+        $data->save();
+        return redirect()->route('mahasiswa')->with('success', 'Data Mahasiswa diverifikasi');
+    }
+
+    public function verificationRejected(string $id){
+        $data = Mahasiswa::findOrFail($id);
+        $data->verifikasi = 'rejected';
+        $data->save();
+        return redirect()->route('mahasiswa')->with('success', 'Data Mahasiswa ditolak');
+    }
+
+    public function changePass(string $id){
+        $mhs = Mahasiswa::with('user')->findOrFail($id);
+        return view('mahasiswa.changepass', compact('mhs'));
+    }
+    
+    public function updatePass(Request $request, string $id){
+        $request->validate([
+            'password' => ['required', 'confirmed', password::defaults()],
+        ]);
+        $user = User::findOrFail($id);
+        $user->password = Hash::make($request->password);
+        $user->save();
+        
+        return redirect()->route('mahasiswa')->with('success', 'Password Mahasiswa diubah');
     }
 }

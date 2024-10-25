@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class BuktiPembayaranController extends Controller
+class RiwayatPembayaranController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class BuktiPembayaranController extends Controller
         
         // $transaksis = $query->paginate($perPage);
 
-        return view('bukti_pembayaran.index');
+        return view('riwayatPembayaran.index');
     }
 
     /**
@@ -58,7 +58,7 @@ class BuktiPembayaranController extends Controller
      */
     public function show()
     {
-        return view('bukti_pembayaran.detail');
+        return view('riwayatPembayaran.detail');
     }
 
     /**

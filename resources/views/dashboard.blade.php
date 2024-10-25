@@ -57,7 +57,7 @@
                             </a>
                             <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Pending 25</p>
                             <p class="mb-3 font-normal text-gray-500 dark:text-gray-400"></p>
-                            <a href="{{route('buktipembayaran')}}"
+                            <a href="{{route('riwayatPembayaran')}}"
                                 class="inline-flex font-medium items-center text-blue-600 hover:underline">
                                 Lihat Selengkapnya
                                 <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"

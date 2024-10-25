@@ -30,32 +30,6 @@
                Dashboard
             </x-side-link>
          </li>
-         {{-- User Akun --}}
-         <li>
-            <x-side-dropdown-link title="User Akun"
-               :active="request()->routeIs('mahasiswa') || request()->routeIs('admin')">
-               <x-slot name="icon">
-                  <svg
-                     class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                     viewBox="0 0 24 24">
-                     <path fill-rule="evenodd"
-                        d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z"
-                        clip-rule="evenodd" />
-                  </svg>
-
-               </x-slot>
-
-               <x-side-dropdown-item href="{{ route('admin') }}" :active="request()->routeIs('admin')">
-                  Admin
-               </x-side-dropdown-item>
-
-               <x-side-dropdown-item href="{{ route('mahasiswa') }}" :active="request()->routeIs('mahasiswa')">
-                  Mahasiswa
-               </x-side-dropdown-item>
-
-            </x-side-dropdown-link>
-         </li>
 
          {{-- Institusi Pendidikan --}}
          <li>
@@ -88,7 +62,7 @@
          {{-- Akademik --}}
          <li>
             <x-side-dropdown-link title="Akademik"
-               :active="request()->routeIs('dosen') || request()->routeIs('matkul') || request()->routeIs('semester') || request()->routeIs('krs')">
+               :active="request()->routeIs('dosen') || request()->routeIs('matkul') || request()->routeIs('semester') || request()->routeIs('jadwalPerkuliahan') || request()->routeIs('mahasiswa')">
                <x-slot name="icon">
                   <svg
                      class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -113,8 +87,13 @@
                   Semester
                </x-side-dropdown-item>
 
-               <x-side-dropdown-item href="{{ route('krs') }}" :active="request()->routeIs('krs')">
-                  Kartu Rencana Studi
+               <x-side-dropdown-item href="{{ route('mahasiswa') }}" :active="request()->routeIs('mahasiswa')">
+                  Mahasiswa
+               </x-side-dropdown-item>
+
+               <x-side-dropdown-item href="{{ route('jadwalPerkuliahan') }}"
+                  :active="request()->routeIs('jadwalPerkuliahan')">
+                  Jadwal Perkuliahan
                </x-side-dropdown-item>
 
             </x-side-dropdown-link>
@@ -123,7 +102,7 @@
          {{-- Pengajuan KRS --}}
          <li>
             <x-side-dropdown-link title="Pengajuan KRS"
-               :active="request()->routeIs('buktipembayaran') || request()->routeIs('kontrak')">
+               :active="request()->routeIs('riwayatPembayaran') || request()->routeIs('kontrak')">
                <x-slot name="icon">
                   <svg
                      class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -135,13 +114,35 @@
 
                </x-slot>
 
-               <x-side-dropdown-item href="{{ route('buktipembayaran') }}"
-                  :active="request()->routeIs('buktipembayaran')">
+               <x-side-dropdown-item href="{{ route('riwayatPembayaran') }}"
+                  :active="request()->routeIs('riwayatPembayaran')">
                   Riwayat Pembayaran
                </x-side-dropdown-item>
 
                <x-side-dropdown-item href="{{ route('kontrak') }}" :active="request()->routeIs('kontrak')">
                   Kontrak KRS
+               </x-side-dropdown-item>
+
+            </x-side-dropdown-link>
+         </li>
+         {{-- Master Data --}}
+         <li>
+            <x-side-dropdown-link title="Master Data" :active="request()->routeIs('admin')">
+               <x-slot name="icon">
+                  <svg
+                     class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                     viewBox="0 0 24 24">
+                     <path fill-rule="evenodd"
+                        d="M4 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4Zm10 5a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2h-3a1 1 0 0 1-1-1Zm0 3a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2h-3a1 1 0 0 1-1-1Zm0 3a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2h-3a1 1 0 0 1-1-1Zm-8-5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm1.942 4a3 3 0 0 0-2.847 2.051l-.044.133-.004.012c-.042.126-.055.167-.042.195.006.013.02.023.038.039.032.025.08.064.146.155A1 1 0 0 0 6 17h6a1 1 0 0 0 .811-.415.713.713 0 0 1 .146-.155c.019-.016.031-.026.038-.04.014-.027 0-.068-.042-.194l-.004-.012-.044-.133A3 3 0 0 0 10.059 14H7.942Z"
+                        clip-rule="evenodd" />
+                  </svg>
+
+
+               </x-slot>
+
+               <x-side-dropdown-item href="{{ route('admin') }}" :active="request()->routeIs('admin')">
+                  Admin
                </x-side-dropdown-item>
 
             </x-side-dropdown-link>

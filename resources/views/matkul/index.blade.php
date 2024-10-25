@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex itens-center">
+        <div class="flex items-center">
             <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Akademik /') }}
             </h2>
@@ -16,8 +16,10 @@
 
             @if(session('success'))
             <x-toast type="success" :messages="[session('success')]" />
-            @elseif(session('errors'))
+            @elseif($errors->any())
             <x-toast type="error" :messages="session('errors')->all()" />
+            @elseif(session('error'))
+            <x-toast type="error" :messages="[session('error')]" />
             @endif
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -61,6 +63,11 @@
                                 </th>
                                 <th>
                                     <span class="flex items-center">
+                                        Dosen Pengampu
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="flex items-center">
                                         SKS
                                     </span>
                                 </th>
@@ -80,6 +87,7 @@
                                 <td>Sistem Informasi</td>
                                 <td>0011223344</td>
                                 <td>MinPro 2</td>
+                                <td>Drs. Dokter Handers.TFT</td>
                                 <td>3</td>
                                 <td>
                                     <button data-modal-target="edit-modal#" data-modal-toggle="edit-modal#"

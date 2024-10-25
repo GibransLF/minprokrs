@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex itens-center">
+        <div class="flex items-center">
             <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('User Akun /') }}
             </h2>
@@ -16,8 +16,10 @@
 
             @if(session('success'))
             <x-toast type="success" :messages="[session('success')]" />
-            @elseif(session('errors'))
+            @elseif($errors->any())
             <x-toast type="error" :messages="session('errors')->all()" />
+            @elseif(session('error'))
+            <x-toast type="error" :messages="[session('error')]" />
             @endif
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -70,6 +72,8 @@
                                 <td>{{$admin->user->name}}</td>
                                 <td>{{$admin->dapartemen}}</td>
                                 <td>
+                                    @if (auth()->user()->id !== $admin->user_id)
+
                                     <button data-modal-target="edit-modal{{$admin->id}}"
                                         data-modal-toggle="edit-modal{{$admin->id}}" type="button"
                                         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900">
@@ -81,6 +85,7 @@
                                         data-modal-toggle="delete-modal{{$admin->id}}" type="button"
                                         class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Hapus</button>
                                     {{-- @include('mahasiswa.delete') --}}
+                                    @endif
                                 </td>
                             </tr>
 

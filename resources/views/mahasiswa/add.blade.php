@@ -21,7 +21,8 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form class="p-4 md:p-5">
+            <form class="p-4 md:p-5" action="{{route('mahasiswa.store')}}" method="POST">
+                @csrf
                 <div class="grid gap-4 mb-4 grid-cols-2">
                     <div class="col-span-2">
                         <label for="name"
@@ -29,13 +30,16 @@
                         <input type="text" name="name" id="name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Masukan nama" required="" value="{{ old('name') }}">
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div class="col-span-2 sm:col-span-1">
                         <label for="nim"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIM</label>
-                        <input type="text" name="nim" id="nim"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        <input type="number" name="nim" id="nim" required autofocus autocomplete="nim"
+                            inputmode="numeric" min="0"
+                            class="appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Masukan NIM" required="" value="{{ old('nim') }}">
+                        <x-input-error :messages="$errors->get('nim')" class="mt-2" />
                     </div>
                     <div class="col-span-2 sm:col-span-1">
                         <label for="email"
@@ -43,44 +47,59 @@
                         <input type="email" name="email" id="email"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Masukan Email" required="" value="{{ old('email') }}">
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
+                    <div x-data="selectForm" class="col-span-2 sm:col-span-1">
+                        <div>
+                            <label for=" fakultas" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Fakultas</label>
+                            <select name="fakultas" id="fakultas" x-model="selectedFakultas"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                required>
+                                <option value="" hidden>-- Pilih Fakultas --</option>
+                                <template x-for="f in fakultas" :key="f.id">
+                                    <option :value="f.id" x-text="f.nama_fakultas"></option>
+                                </template>
+                            </select>
+                            <x-input-error :messages="$errors->get('fakultas')" class="mt-2" />
+                        </div>
+                        <div>
+                            <label for="jurusan"
+                                class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
+                            <select name="jurusan" id="jurusan" x-model="selectedJurusan"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                :disabled="selectedFakultas === ''" required>
+                                <template x-if="selectedFakultas === ''">
+                                    <option value="" hidden>-- Pilih Fakultas dahulu --</option>
+                                </template>
+                                <template x-if="this.selectedFakultas !== ''">
+                                    <option value="" hidden>-- Pilih Jurusan --</option>
+                                </template>
+                                <template x-for="j in filteredJurusan" :key="j.id">
+                                    <option :value="j.id" x-text="j.nama_jurusan"></option>
+                                </template>
+                            </select>
+                            <x-input-error :messages="$errors->get('jurusan')" class="mt-2" />
+                        </div>
                     </div>
                     <div class="col-span-2 sm:col-span-1">
-                        <label for="category"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fakultas</label>
-                        <select id="category"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            required>
-                            <option selected="">-- Pilih Fakultas dahulu --</option>
-                            <option>test0</option>
-                            <option>test1</option>
-                            <option>test2</option>
-                        </select>
-                    </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label for="category"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
-                        <select id="category"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected="">-- Pilih Jurusan --</option>
-                            <option value="">test0</option>
-                            <option value="">test1</option>
-                            <option value="">test2</option>
-                        </select>
-                    </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label for="password"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                        <input type="text" name="passworod" id="password"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Masukan password" required>
-                    </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label for="password_confirmation"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Konfirmasi
-                            Password</label>
-                        <input type="text" name="password_confirmation" id="password_confirmation"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Masukan assword" required>
+                        <div>
+                            <label for="password"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                            <input type="password" name="password" id="password"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="Masukan password" required>
+                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                        </div>
+                        <div>
+                            <label for="password_confirmation"
+                                class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Konfirmasi
+                                Password</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="Masukan assword" required>
+                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                        </div>
                     </div>
                 </div>
                 <button type="submit"

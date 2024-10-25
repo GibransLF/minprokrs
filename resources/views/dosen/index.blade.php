@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex itens-center">
+        <div class="flex items-center">
             <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Akademik /') }}
             </h2>
@@ -16,8 +16,10 @@
 
             @if(session('success'))
             <x-toast type="success" :messages="[session('success')]" />
-            @elseif(session('errors'))
+            @elseif($errors->any())
             <x-toast type="error" :messages="session('errors')->all()" />
+            @elseif(session('error'))
+            <x-toast type="error" :messages="[session('error')]" />
             @endif
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">

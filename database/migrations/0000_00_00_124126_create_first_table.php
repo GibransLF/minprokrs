@@ -20,7 +20,7 @@ return new class extends Migration
 
         Schema::create('jurusan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fakultas_id')->constrained('fakultas')->onDelete('cascade');
+            $table->foreignId('fakultas_id')->constrained('fakultas');
             $table->string('kode_jurusan');
             $table->string('nama_jurusan');
             $table->timestamps();

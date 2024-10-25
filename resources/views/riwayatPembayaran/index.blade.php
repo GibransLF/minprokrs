@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex itens-center">
+        <div class="flex items-center">
             <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Pengajuan KRS /') }}
             </h2>
@@ -65,7 +65,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 justify-center">
                     {{-- @foreach ($transaksis as $transaksi) --}}
-                    <a href="{{route('buktipembayaran.detail')}}" class="flex flex-col mb-4
+                    <a href="{{route('riwayatPembayaran.detail')}}" class="flex flex-col mb-4
                         items-center m-auto bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-3xl
                         hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                         <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
