@@ -37,7 +37,7 @@ class MahasiswaController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'nim' => ['required', 'numeric', 'digits_between:0,8', 'unique:'.Mahasiswa::class],
+            'nim' => ['required', 'numeric', 'digits_between:0,12', 'unique:'.Mahasiswa::class],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'fakultas' => 'required',
             'jurusan' => 'required',
@@ -91,7 +91,7 @@ class MahasiswaController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'nim' => ['required', 'numeric', 'digits_between:0,8', Rule::unique('mahasiswa')->ignore($id),],
+            'nim' => ['required', 'numeric', 'digits_between:0,12', Rule::unique('mahasiswa')->ignore($id),],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users')->ignore($user_id),],
             'fakultas' => 'required',
             'jurusan' => 'required',

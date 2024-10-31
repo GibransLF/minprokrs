@@ -2,17 +2,17 @@
     <x-slot name="header">
         <div class="flex itens-center">
             <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Akademik /') }}
+                {{ __('User Akun /') }}
             </h2>
             &nbsp;
             <a href="{{route('mahasiswa')}}">
                 <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Mahasiswa /') }}
+                    {{ __('Admin /') }}
                 </h2>
             </a>
             &nbsp;
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{$mhs->user->name}}
+                {{$admin->user->name}}
             </h2>
         </div>
     </x-slot>
@@ -40,7 +40,7 @@
                             </p>
                         </header>
 
-                        <form method="post" action="{{ route('mahasiswa.updatePass', $mhs->user->id) }}"
+                        <form method="post" action="{{ route('admin.updatePass', $admin->user->id) }}"
                             class="mt-6 space-y-6">
                             @csrf
                             @method('put')

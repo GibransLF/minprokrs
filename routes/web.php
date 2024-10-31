@@ -46,6 +46,12 @@ Route::middleware('auth')->group(function () {
         
         //admin
         Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+        Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+        Route::patch('/admin/upfate/{id}', [AdminController::class, 'update'])->name('admin.update');
+        Route::delete('/admin/destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+        
+        Route::get('/admin/changePass/{id}', [AdminController::class, 'changePass'])->name('admin.changePass');
+        route::put('/admin/updatePass/{id}', [AdminController::class, 'updatePass'])->name('admin.updatePass');
         
         //institusi fakultas
         Route::get('/fakultas', [FakultasController::class, 'index'])->name('fakultas');
@@ -61,6 +67,9 @@ Route::middleware('auth')->group(function () {
         
         //dosen
         Route::get('/dosen', [DosenController::class, 'index'])->name('dosen');
+        Route::post('/dosen/store', [DosenController::class, 'store'])->name('dosen.store');
+        Route::patch('/dosen/update/{id}', [DosenController::class, 'update'])->name('dosen.update');
+        Route::delete('/dosen/destroy/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
         
         //matakuliah
         Route::get('/matkul', [MatKulController::class, 'index'])->name('matkul');

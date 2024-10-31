@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dosen;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class DosenController extends Controller
 {
@@ -11,7 +13,8 @@ class DosenController extends Controller
      */
     public function index()
     {
-        return view('dosen.index');
+        $data = Dosen::all();
+        return view('dosen.index', compact('data'));
     }
 
     /**
@@ -27,7 +30,17 @@ class DosenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nidn' => ['required', 'numeric', 'digits_between:0,10', 'unique:'.Dosen::class],
+            'nama_dosen' => 'required',
+        ]);
+
+        $dosen = new Dosen;
+        $dosen->nidn = $request->nidn;
+        $dosen->nama_dosen = $request->nama_dosen;
+        $dosen->save();
+
+        return redirect()->route('dosen')->with('success', 'Data Dosen berhasil ditambahkan');
     }
 
     /**
@@ -51,7 +64,17 @@ class DosenController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nidn' => ['required', 'numeric', 'digits_between:0,10', Rule::unique('dosen')->ignore($id),],
+            'nama_dosen' => 'required',
+        ]);
+
+        $dosen = Dosen::findOrFail($id);
+        $dosen->nidn = $request->nidn;
+        $dosen->nama_dosen = $request->nama_dosen;
+        $dosen->save();
+
+        return redirect()->route('dosen')->with('success', 'Data Dosen berhasil diubah');
     }
 
     /**
@@ -59,6 +82,11 @@ class DosenController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Dosen::destroy($id);
+            return redirect()->back()->with('success', 'Dosen berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Dosen gagal dihapus '. $e->getMessage());
+        }
     }
 }

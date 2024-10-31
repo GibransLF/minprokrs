@@ -22,7 +22,7 @@ export default {
     },
 
     //'media' or 'class'
-    darkMode: "media",
+    darkMode: "class",
 
     plugins: [
         forms,
