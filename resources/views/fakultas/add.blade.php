@@ -30,6 +30,7 @@
                         <input type="text" name="kode_fakultas" id="kode_fakultas" value="{{old('kode_fakultas')}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Ketikan kode fakultas" required="">
+                        <x-input-error :messages="$errors->get('kode_fakultas')" class="mt-2" />
                     </div>
                     <div class="col-span-2">
                         <label for="nama_fakultas"
@@ -37,6 +38,7 @@
                         <input type="text" name="nama_fakultas" id="nama_fakultas" value="{{old('nama_fakultas')}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Ketikan nama fakultas" required="">
+                        <x-input-error :messages="$errors->get('nama_fakultas')" class="mt-2" />
                     </div>
                 </div>
                 <button type="submit"

@@ -14,4 +14,9 @@ class Dosen extends Model
         'nidn',
         'nama_dosen',
     ];
+
+    public function mataKuliah()
+    {
+        return $this->hasMany(MataKuliah::class);
+    }
 }

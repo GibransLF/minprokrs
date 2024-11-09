@@ -35,7 +35,7 @@
                             </svg>
                         </button>
                     </div>
-                    {{-- @include('mahasiswa.add') --}}
+                    @include('semester.add')
                     <table id="search-table">
                         <thead>
                             <tr>
@@ -51,12 +51,12 @@
                                 </th>
                                 <th>
                                     <span class="flex items-center">
-                                        Mulai Ajaran
+                                        Mulai Kontrak
                                     </span>
                                 </th>
                                 <th>
                                     <span class="flex items-center">
-                                        Berakhir Ajaran
+                                        Tutup Kontrak
                                     </span>
                                 </th>
                                 <th>
@@ -77,37 +77,49 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($data as $admin) --}}
+                            @foreach ($data as $semester)
 
                             <tr>
                                 <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     1</td>
-                                <td>Genap</td>
-                                <td>2024-09-02</td>
-                                <td>2024-12-22</td>
-                                <td>Rp. 2.500.000</td>
+                                <td>{{ ucfirst($semester->nama_semester)}}
+                                </td>
+                                <td>{{ date('d-m-Y', strtotime($semester->mulai_kontrak)) }}</td>
+                                <td>{{ date('d-m-Y', strtotime($semester->tutup_kontrak)) }}</td>
+                                <td>Rp.{{ number_format($semester->nominal_pembayaran ,2,",",".") }}</td>
                                 <td>
-                                    <span
-                                        class=" bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-                                        {{ ucfirst("aktif") }}
-                                    </span>
+                                    @if(now() >= $semester->mulai_kontrak && now() <= $semester->tutup_kontrak)
+                                        <span
+                                            class=" bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                                            {{ ucfirst("aktif") }}
+                                        </span>
+                                        @else
+                                        <span
+                                            class=" bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                            {{ ucfirst("Tutup") }}
+                                        </span>
+                                        @endif
                                 </td>
                                 <td>
-                                    <button data-modal-target="edit-modal#" data-modal-toggle="edit-modal#"
-                                        type="button"
+                                    <a href="{{ route('jadwalPerkuliahan', $semester->id) }}"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Jadwal
+                                        Kuliah</a>
+                                    &nbsp;
+                                    <button data-modal-target="edit-modal{{$semester->id}}"
+                                        data-modal-toggle="edit-modal{{$semester->id}}" type="button"
                                         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900">
                                         Ubah
                                     </button>
-                                    {{-- @include('mahasiswa.edit') --}}
+                                    @include('semester.edit')
                                     &nbsp;
-                                    <button data-modal-target="delete-modal#" data-modal-toggle="delete-modal#"
-                                        type="button"
+                                    <button data-modal-target="delete-modal{{$semester->id}}"
+                                        data-modal-toggle="delete-modal{{$semester->id}}" type="button"
                                         class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Hapus</button>
-                                    {{-- @include('mahasiswa.delete') --}}
+                                    @include('semester.delete')
                                 </td>
                             </tr>
 
-                            {{-- @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

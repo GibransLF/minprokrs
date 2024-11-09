@@ -37,7 +37,7 @@
                             </svg>
                         </button>
                     </div>
-                    {{-- @include('mahasiswa.add') --}}
+                    @include('matkul.add')
                     <table id="search-table">
                         <thead>
                             <tr>
@@ -79,32 +79,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($data as $admin) --}}
+                            @foreach ($data as $matkul)
 
                             <tr>
                                 <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     1</td>
-                                <td>Sistem Informasi</td>
-                                <td>0011223344</td>
-                                <td>MinPro 2</td>
-                                <td>Drs. Dokter Handers.TFT</td>
-                                <td>3</td>
+                                <td>{{ $matkul->jurusan->nama_jurusan }}</td>
+                                <td>{{ $matkul->kode_mk }}</td>
+                                <td>{{ $matkul->nama_mk }}</td>
+                                <td>{{ $matkul->dosen->nama_dosen }}</td>
+                                <td>{{ $matkul->sks }}</td>
                                 <td>
-                                    <button data-modal-target="edit-modal#" data-modal-toggle="edit-modal#"
-                                        type="button"
+                                    <button data-modal-target="edit-modal{{ $matkul->id }}"
+                                        data-modal-toggle="edit-modal{{ $matkul->id }}" type="button"
                                         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900">
                                         Ubah
                                     </button>
-                                    {{-- @include('mahasiswa.edit') --}}
+                                    @include('matkul.edit')
                                     &nbsp;
-                                    <button data-modal-target="delete-modal#" data-modal-toggle="delete-modal#"
-                                        type="button"
+                                    <button data-modal-target="delete-modal{{ $matkul->id }}"
+                                        data-modal-toggle="delete-modal{{ $matkul->id }}" type="button"
                                         class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Hapus</button>
-                                    {{-- @include('mahasiswa.delete') --}}
+                                    @include('matkul.delete')
                                 </td>
                             </tr>
 
-                            {{-- @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

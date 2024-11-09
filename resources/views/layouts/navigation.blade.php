@@ -43,7 +43,7 @@
 
                 <!-- Bukti Pembayaran -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('buktipembayaran')" :active="request()->routeIs('buktipembayaran')">
+                    <x-nav-link :href="route('riwayatPembayaran')" :active="request()->routeIs('riwayatPembayaran')">
                         {{ __('Riwayat Pembayaran') }}
                     </x-nav-link>
                 </div>

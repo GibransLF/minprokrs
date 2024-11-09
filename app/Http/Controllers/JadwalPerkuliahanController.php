@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Krs;
+use App\Models\MataKuliah;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 
 class JadwalPerkuliahanController extends Controller
@@ -9,9 +12,13 @@ class JadwalPerkuliahanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $id)
     {
-        return view('jadwalPerkuliahan.index');
+        $semester = Semester::findOrFail($id);
+        $data = Krs::with('matkul', 'dosen', 'semester' , 'jurusan')->where('semester_id', $id)->get();
+        $mataKuliah = MataKuliah::with('dosen','jurusan')->get();
+
+        return view('jadwalPerkuliahan.index', compact('semester','data', 'mataKuliah'));
     }
 
     /**
@@ -25,9 +32,31 @@ class JadwalPerkuliahanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, string $id)
     {
-        //
+        $semesterId = $id;
+
+        $request->validate([
+            'mk_id' => 'required',
+            'mulai' => ['required' , 'date_format:H:i'],
+            'selesai' => ['required' , 'date_format:H:i'],
+        ]);
+
+
+        $mk = MataKuliah::findOrFail($request->mk_id);
+        $jurusanId = $mk->jurusan_id;
+        $dosenId = $mk->dosen_id;
+        
+        $krs = new Krs;
+        $krs->jurusan_id = $jurusanId;
+        $krs->semester_id = $semesterId;
+        $krs->dosen_id = $dosenId;
+        $krs->mk_id = $request->mk_id;
+        $krs->mulai = $request->mulai;
+        $krs->selesai = $request->selesai;
+        $krs->save();
+
+        return redirect()->route('jadwalPerkuliahan', $id)->with('success', 'Data jadwal mata kuliah ditambahkan');
     }
 
     /**
@@ -51,7 +80,26 @@ class JadwalPerkuliahanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $request->validate([
+            'mk_id' => 'required',
+            'mulai' => ['required' , 'date_format:H:i'],
+            'selesai' => ['required' , 'date_format:H:i'],
+        ]);
+
+        $mk = MataKuliah::findOrFail($request->mk_id);
+        $jurusanId = $mk->jurusan_id;
+        $dosenId = $mk->dosen_id;
+
+        $krs = Krs::findOrFail($id);
+        $krs->jurusan_id = $jurusanId;
+        $krs->dosen_id = $dosenId;
+        $krs->mk_id = $request->mk_id;
+        $krs->mulai = $request->mulai;
+        $krs->selesai = $request->selesai;
+        $krs->save();
+
+        return redirect()->route('jadwalPerkuliahan', $krs->semester_id)->with('success', 'Data jadwal mata kuliah diubah');
     }
 
     /**
@@ -59,6 +107,11 @@ class JadwalPerkuliahanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Krs::destroy($id);
+            return redirect()->back()->with('success', 'Jadwal berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Jadwal gagal dihapus');
+        }
     }
 }

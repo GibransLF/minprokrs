@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Semester;
 use Illuminate\Http\Request;
 
 class SemesterController extends Controller
@@ -11,7 +12,8 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        return view('semester.index');
+        $data = Semester::all();
+        return view('semester.index', compact('data'));
     }
 
     /**
@@ -27,7 +29,24 @@ class SemesterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_semester' => 'required',
+            'mulai_kontrak'=> ['required','date'],
+            'tutup_kontrak' => ['required','date'],
+            'nominal_pembayaran' => ['required', 'numeric'],
+        ]);
+
+        $mulai_kontrak = date('Y-m-d', strtotime($request->mulai_kontrak));
+        $tutup_kontrak = date('Y-m-d', strtotime($request->tutup_kontrak));
+
+        $semester = new Semester;
+        $semester->nama_semester = $request->nama_semester;
+        $semester->mulai_kontrak = $mulai_kontrak;
+        $semester->tutup_kontrak = $tutup_kontrak;
+        $semester->nominal_pembayaran = $request->nominal_pembayaran;
+        $semester->save();
+
+        return redirect()->back()->with('success', 'Semester berhasil ditambahkan');
     }
 
     /**
@@ -51,7 +70,24 @@ class SemesterController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama_semester' => 'required',
+            'mulai_kontrak'=> ['required','date'],
+            'tutup_kontrak' => ['required','date'],
+            'nominal_pembayaran' => ['required', 'numeric'],
+        ]);
+
+        $mulai_kontrak = date('Y-m-d', strtotime($request->mulai_kontrak));
+        $tutup_kontrak = date('Y-m-d', strtotime($request->tutup_kontrak));
+
+        $semester = Semester::findorFail($id);
+        $semester->nama_semester = $request->nama_semester;
+        $semester->mulai_kontrak = $mulai_kontrak;
+        $semester->tutup_kontrak = $tutup_kontrak;
+        $semester->nominal_pembayaran = $request->nominal_pembayaran;
+        $semester->save();
+
+        return redirect()->back()->with('success', 'Semester berhasil diubah');
     }
 
     /**
@@ -59,6 +95,11 @@ class SemesterController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Semester::destroy($id);
+            return redirect()->back()->with('success', 'Semester berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Semester gagal dihapus');
+        }
     }
 }

@@ -83,17 +83,13 @@
                   Mata Kuliah
                </x-side-dropdown-item>
 
-               <x-side-dropdown-item href="{{ route('semester') }}" :active="request()->routeIs('semester')">
+               <x-side-dropdown-item href="{{ route('semester') }}"
+                  :active="request()->routeIs('semester') || request()->routeIs('jadwalPerkuliahan')">
                   Semester
                </x-side-dropdown-item>
 
                <x-side-dropdown-item href="{{ route('mahasiswa') }}" :active="request()->routeIs('mahasiswa')">
                   Mahasiswa
-               </x-side-dropdown-item>
-
-               <x-side-dropdown-item href="{{ route('jadwalPerkuliahan') }}"
-                  :active="request()->routeIs('jadwalPerkuliahan')">
-                  Jadwal Perkuliahan
                </x-side-dropdown-item>
 
             </x-side-dropdown-link>

@@ -31,6 +31,7 @@
                         <input type="number" inputmode="numeric" name="nidn" id="nidn" value="{{ $dosen->nidn }}"
                             class="appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="{{ $dosen->nidn }}" required="">
+                        <x-input-error :messages="$errors->get('nidn')" class="mt-2" />
                     </div>
                     <div class="col-span-2">
                         <label for="nama_dosen"
@@ -38,6 +39,7 @@
                         <input type="text" name="nama_dosen" id="nama_dosen" value="{{ $dosen->nama_dosen }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="{{ $dosen->nama_dosen }}" required="">
+                        <x-input-error :messages="$errors->get('nama_dosen')" class="mt-2" />
                     </div>
                 </div>
                 <button type="submit"

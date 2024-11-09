@@ -5,8 +5,15 @@
                 {{ __('Akademik /') }}
             </h2>
             &nbsp;
+            <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <a href="{{ Route('semester') }}">
+                    Semester {{ ucfirst($semester->nama_semester) . ' ' . date('Y', strtotime($semester->mulai_kontrak))
+                    }} /
+                </a>
+            </h2>
+            &nbsp;
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Kartu Rencana Studi') }}
+                {{ __('Jadwal Kuliah') }}
             </h2>
         </div>
     </x-slot>
@@ -25,7 +32,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-between">
-                        <p class="text-4xl font-semibold text-gray-900 dark:text-white">Kartu Rencana Studi</p>
+                        <p class="text-4xl font-semibold text-gray-900 dark:text-white">Jadwal Perkuliahan</p>
                         <button data-modal-target="add-modal" data-modal-toggle="add-modal" type="button"
                             class="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             <span class="mr-2">Tambah</span>
@@ -37,7 +44,7 @@
                             </svg>
                         </button>
                     </div>
-                    {{-- @include('mahasiswa.add') --}}
+                    @include('jadwalPerkuliahan.add')
                     <table id="search-table">
                         <thead>
                             <tr>
@@ -48,17 +55,12 @@
                                 </th>
                                 <th>
                                     <span class="flex items-center">
-                                        Semester
+                                        Dosen
                                     </span>
                                 </th>
                                 <th>
                                     <span class="flex items-center">
                                         Mata Kuliah
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
-                                        Dosen
                                     </span>
                                 </th>
                                 <th>
@@ -79,32 +81,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($data as $admin) --}}
+                            @foreach ($data as $krs)
 
                             <tr>
                                 <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1</td>
-                                <td>Genap 2024</td>
-                                <td>Sistem Informasi</td>
-                                <td>Drs. Dokter Handers.TFT</td>
-                                <td>13:00 - 14:30</td>
-                                <td>3</td>
+                                    {{ $loop->iteration }}</td>
+                                <td>{{ $krs->dosen->nidn . ' - ' . $krs->dosen->nama_dosen }}</td>
+                                <td>{{ $krs->matkul->kode_mk . ' - ' . $krs->matkul->nama_mk }}</td>
+                                <td>{{ $krs->mulai . ' - ' . $krs->selesai }}</td>
+                                <td>{{ $krs->matkul->sks }}</td>
                                 <td>
-                                    <button data-modal-target="edit-modal#" data-modal-toggle="edit-modal#"
-                                        type="button"
+                                    <button data-modal-target="edit-modal{{$krs->id}}"
+                                        data-modal-toggle="edit-modal{{$krs->id}}" type="button"
                                         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900">
                                         Ubah
                                     </button>
-                                    {{-- @include('mahasiswa.edit') --}}
+                                    @include('jadwalPerkuliahan.edit')
                                     &nbsp;
-                                    <button data-modal-target="delete-modal#" data-modal-toggle="delete-modal#"
-                                        type="button"
+                                    <button data-modal-target="delete-modal{{$krs->id}}"
+                                        data-modal-toggle="delete-modal{{$krs->id}}" type="button"
                                         class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Hapus</button>
-                                    {{-- @include('mahasiswa.delete') --}}
+                                    @include('jadwalPerkuliahan.delete')
                                 </td>
                             </tr>
 
-                            {{-- @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

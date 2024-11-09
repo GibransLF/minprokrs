@@ -7,7 +7,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Tambah Jurusan Baru
+                    Tambah Mata Kuliah Baru
                 </h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -21,39 +21,60 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form class="p-4 md:p-5" action="{{route('jurusan.store')}}" method="POST">
+            <form class="p-4 md:p-5" action="{{route('matkul.store')}}" method="POST">
                 @csrf
                 <div class="grid gap-4 mb-4 grid-cols-2">
                     <div class="col-span-2">
-                        <label for="fakultas_id"
+                        <label for="jurusan_id"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih
-                            nama
-                            fakultas</label>
-                        <select id="fakultas_id" name="fakultas_id"
+                            Jurusan</label>
+                        <select id="jurusan_id" name="jurusan_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required>
-                            <option value="" hidden>-- Pilih Fakultas --</option>
-                            @foreach ( $addFakultas as $fakultas )
-                            <option value="{{$fakultas->id}}">{{$fakultas->nama_fakultas}}</option>
+                            <option value="" hidden>-- Pilih Jurusan --</option>
+                            @foreach ( $addJurusan as $jurusan )
+                            <option value="{{$jurusan->id}}">{{$jurusan->nama_jurusan}}</option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('fakultas_id')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('jurusan_id')" class="mt-2" />
                     </div>
                     <div class="col-span-2">
-                        <label for="kode_jurusan"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode Jurusan</label>
-                        <input type="text" name="kode_jurusan" id="kode_jurusan" value="{{old('kode_jurusan')}}"
+                        <label for="dosen_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih
+                            Dosen Pengampu</label>
+                        <select id="dosen_id" name="dosen_id"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required>
+                            <option value="" hidden>-- Pilih Dosen Pengampu --</option>
+                            @foreach ( $addDosen as $dosen )
+                            <option value="{{$dosen->id}}">{{$dosen->nama_dosen}}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error :messages="$errors->get('dosen_id')" class="mt-2" />
+                    </div>
+                    <div class="col-span-2">
+                        <label for="kode_mk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                            Mata
+                            kuliah</label>
+                        <input type="text" name="kode_mk" id="kode_mk" value="{{old('kode_mk')}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Ketikan kode jurusan" required="">
-                        <x-input-error :messages="$errors->get('kode_jurusan')" class="mt-2" />
+                            placeholder="Ketikan kode jMata Kuliah" required="">
+                        <x-input-error :messages="$errors->get('kode_mk')" class="mt-2" />
                     </div>
                     <div class="col-span-2">
-                        <label for="nama_jurusan"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama jurusan</label>
-                        <input type="text" name="nama_jurusan" id="nama_jurusan" value="{{old('nama_jurusan')}}"
+                        <label for="nama_mk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
+                            Mata Kuliah</label>
+                        <input type="text" name="nama_mk" id="nama_mk" value="{{old('nama_mk')}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Ketikan nama jurusan" required="">
-                        <x-input-error :messages="$errors->get('nama_jurusan')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('nama_mk')" class="mt-2" />
+                    </div>
+                    <div class="col-span-2">
+                        <label for="sks"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SKS</label>
+                        <input type="number" name="sks" id="sks" required inputmode="numeric" min="0"
+                            class="appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Masukan SKS" required="" value="{{ old('sks') }}">
+                        <x-input-error :messages="$errors->get('sks')" class="mt-2" />
                     </div>
                 </div>
                 <button type="submit"
@@ -64,7 +85,7 @@
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    Tambah jurusan baru
+                    Tambah mata kuliah baru
                 </button>
             </form>
         </div>

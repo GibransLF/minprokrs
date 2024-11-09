@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fakultas;
 use App\Models\Jurusan;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 class JurusanController extends Controller
@@ -32,7 +33,7 @@ class JurusanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_jurusan' => 'required',
+            'kode_jurusan' => 'required','unique:'.Jurusan::class,
             'nama_jurusan' => 'required',
             'fakultas_id' => 'required',
         ]);
@@ -69,7 +70,7 @@ class JurusanController extends Controller
     {
         $request->validate([
             'fakultas_id' => 'required',
-            'kode_jurusan' => 'required',
+            'kode_jurusan' => 'required', Rule::unique('jurusan')->ignore($id),
             'nama_jurusan' => 'required',
         ]);
 

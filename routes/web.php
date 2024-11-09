@@ -8,7 +8,7 @@ use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KontrakController;
 use App\Http\Controllers\JadwalPerkuliahanController;
 use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\MatKulController;
+use App\Http\Controllers\MataKuiiahController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SemesterController;
@@ -72,14 +72,22 @@ Route::middleware('auth')->group(function () {
         Route::delete('/dosen/destroy/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
         
         //matakuliah
-        Route::get('/matkul', [MatKulController::class, 'index'])->name('matkul');
+        Route::get('/mataKuliah', [MataKuiiahController::class, 'index'])->name('matkul');
+        Route::post('/mataKuliah/store', [MataKuiiahController::class, 'store'])->name('matkul.store');
+        Route::patch('/mataKuliah/update/{id}', [MataKuiiahController::class, 'update'])->name('matkul.update');
+        Route::delete('/mataKuliah/destroy/{id}', [MataKuiiahController::class, 'destroy'])->name('matkul.destroy');
         
         //semester
         Route::get('/semester', [SemesterController::class, 'index'])->name('semester');
+        Route::post('/semester/store', [SemesterController::class, 'store'])->name('semester.store');
+        Route::patch('/semester/update/{id}', [SemesterController::class, 'update'])->name('semester.update');
+        Route::delete('/semester/destroy/{id}', [SemesterController::class, 'destroy'])->name('semester.destroy');
         
         //Jadwal Perkuliahan
-        Route::get('/jadwalPerkuliahan', [JadwalPerkuliahanController::class, 'index'])->name('jadwalPerkuliahan');
-        
+        Route::get('/jadwalPerkuliahan/{id}', [JadwalPerkuliahanController::class, 'index'])->name('jadwalPerkuliahan');
+        Route::post('/jadwalPerkuliahan/store/{id}', [JadwalPerkuliahanController::class, 'store'])->name('jadwalPerkuliahan.store');
+        Route::patch('/jadwalPerkuliahan/update/{id}', [JadwalPerkuliahanController::class, 'update'])->name('jadwalPerkuliahan.update');
+        Route::delete('/jadwalPerkuliahan/destroy/{id}', [JadwalPerkuliahanController::class, 'destroy'])->name('jadwalPerkuliahan.destroy');
     });
 
     Route::group(['middleware' => ['role:mahasiswa']], function () {

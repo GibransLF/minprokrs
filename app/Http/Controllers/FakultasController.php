@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fakultas;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class FakultasController extends Controller
 {
@@ -30,7 +31,7 @@ class FakultasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_fakultas' => 'required',
+            'kode_fakultas' => 'required', Rule::unique('fakultas'),
             'nama_fakultas' => 'required',
         ]);
 
@@ -64,7 +65,7 @@ class FakultasController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'kode_fakultas' => 'required',
+            'kode_fakultas' => 'required', Rule::unique('fakultas')->ignore($id),
             'nama_fakultas' => 'required',
         ]);
 
