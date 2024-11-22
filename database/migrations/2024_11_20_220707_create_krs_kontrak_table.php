@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mata_kuliah', function (Blueprint $table) {
+        Schema::create('krs_kontrak', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('mahasiswa_id')->constrained('mahasiswa');
+            $table->foreignId('semester_id')->constrained('semester');
             $table->foreignId('jurusan_id')->constrained('jurusan');
-            $table->foreignId('dosen_id')->constrained('dosen');
-            $table->string('kode_mk');
-            $table->string('nama_mk');
-            $table->integer('sks');
+            $table->foreignId('krs_id')->constrained('krs');
+            $table->foreignId('riwayat_pembayaran_id')->constrained('riwayat_pembayaran');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mata_kuliah');
+        Schema::dropIfExists('krs_kontrak');
     }
 };

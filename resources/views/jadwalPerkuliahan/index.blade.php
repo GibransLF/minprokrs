@@ -7,7 +7,7 @@
             &nbsp;
             <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 <a href="{{ Route('semester') }}">
-                    Semester {{ ucfirst($semester->nama_semester) . ' ' . date('Y', strtotime($semester->mulai_kontrak))
+                    Semester {{ ucfirst($semester->nama_semester) . ' ' . $semester->tahun_ajaran
                     }} /
                 </a>
             </h2>

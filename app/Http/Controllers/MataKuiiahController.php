@@ -37,7 +37,7 @@ class MataKuiiahController extends Controller
         $request->validate([
             'jurusan_id' => 'required',
             'dosen_id' => 'required',
-            'kode_mk' => ['required', Rule::unique('mata_kuliah')],
+            'kode_mk' => 'required',
             'nama_mk' => 'required',
             'sks' => 'required',
         ]);
@@ -77,7 +77,7 @@ class MataKuiiahController extends Controller
         $request->validate([
             'jurusan_id' => 'required',
             'dosen_id' => 'required',
-            'kode_mk' => ['required', Rule::unique('mata_kuliah')->ignore($id)],
+            'kode_mk' => 'required',
             'nama_mk' => 'required',
             'sks' => 'required',
         ]);

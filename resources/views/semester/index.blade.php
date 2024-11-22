@@ -16,8 +16,10 @@
 
             @if(session('success'))
             <x-toast type="success" :messages="[session('success')]" />
-            @elseif(session('errors'))
+            @elseif($errors->any())
             <x-toast type="error" :messages="session('errors')->all()" />
+            @elseif(session('error'))
+            <x-toast type="error" :messages="[session('error')]" />
             @endif
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -51,12 +53,12 @@
                                 </th>
                                 <th>
                                     <span class="flex items-center">
-                                        Mulai Kontrak
+                                        Tahun Ajaran
                                     </span>
                                 </th>
                                 <th>
                                     <span class="flex items-center">
-                                        Tutup Kontrak
+                                        Waktu Kontrak
                                     </span>
                                 </th>
                                 <th>
@@ -81,11 +83,12 @@
 
                             <tr>
                                 <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1</td>
+                                    {{ $loop->iteration }}</td>
                                 <td>{{ ucfirst($semester->nama_semester)}}
                                 </td>
-                                <td>{{ date('d-m-Y', strtotime($semester->mulai_kontrak)) }}</td>
-                                <td>{{ date('d-m-Y', strtotime($semester->tutup_kontrak)) }}</td>
+                                <td>{{ $semester->tahun_ajaran}}</td>
+                                <td>{{ date('d-m-Y', strtotime($semester->mulai_kontrak)) }} - {{ date('d-m-Y',
+                                    strtotime($semester->tutup_kontrak)) }}</td>
                                 <td>Rp.{{ number_format($semester->nominal_pembayaran ,2,",",".") }}</td>
                                 <td>
                                     @if(now() >= $semester->mulai_kontrak && now() <= $semester->tutup_kontrak)

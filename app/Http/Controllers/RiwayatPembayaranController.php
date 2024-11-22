@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Krs;
+use App\Models\RiwayatPembayaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RiwayatPembayaranController extends Controller
 {
@@ -11,30 +14,32 @@ class RiwayatPembayaranController extends Controller
      */
     public function index(request $request)
     {
-        // $nama = $request->input('nama','all');
-        // $nama == '' ? $nama = 'all' : $nama;
-        // $status = $request->input('status','all');
-        // $perPage = 5;
-
-        // $query = Transaksi::with(['member', 'produk'])->withCount('detailTransaksis')->orderBy('created_at','desc');
-
-        // if ($nama !== 'all') {
-        //     $query->whereHas('member', function ($query) use ($nama) {
-        //         $query->where('nama', 'like', '%' . $nama . '%');
-        //     });
-        // }
-    
-        // if ($status == 'late') {
-        //     $query->where('tgl_pengembalian', '<', now()->toDateString())
-        //             ->where('status_rental', 'progress');
-        // } elseif ($status !== 'all') {
-        //     $query->where('status_rental', $status);
-        // }
-    
+        $user = Auth::user();
+        $userRoles = $user->roles->first()->name;
         
-        // $transaksis = $query->paginate($perPage);
+        $perPage = 5;
 
-        return view('riwayatPembayaran.index');
+        if ($userRoles == 'admin') {
+            $nim = $request->input('nim','all');
+            $nim == '' ? $nim = 'all' : $nim;
+
+            $query = RiwayatPembayaran::with('mahasiswa')->orderByRaw("FIELD(status, 'pending', 'canceled', 'confirmed')");
+
+            if ($nim !== 'all') {
+                $query->whereHas('mahasiswa', function ($query) use ($nim) {
+                    $query->where('nim', 'like', '%' . $nim . '%');
+                });
+            }
+            
+            $data = $query->paginate($perPage);
+        }
+        else{
+            $query = RiwayatPembayaran::where('mahasiswa_id', $user->mahasiswa->id)->orderByRaw("FIELD(status, 'pending', 'canceled', 'confirmed')");
+
+            $data = $query->paginate($perPage);
+        }
+
+        return view('riwayatPembayaran.index',compact('data'));
     }
 
     /**
@@ -56,9 +61,19 @@ class RiwayatPembayaranController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(string $id)
     {
-        return view('riwayatPembayaran.detail');
+        $riwayatPembayaran = RiwayatPembayaran::findOrFail($id);
+        $jurusanId = $riwayatPembayaran->jurusan_id;
+        $semesterId = $riwayatPembayaran->semester_id;
+        $mahasiswaId = $riwayatPembayaran->mahasiswa_id;
+        
+        $data = Krs::where('semester_id', $semesterId)
+        ->whereHas('semester', function ($query) use ($jurusanId) {
+            $query->where('jurusan_id', $jurusanId);
+        })
+        ->get();
+        return view('riwayatPembayaran.show', compact('riwayatPembayaran',  'data'));
     }
 
     /**
@@ -74,7 +89,25 @@ class RiwayatPembayaranController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $loggedInUser = Auth::user();
+        $mahasiswaId = $loggedInUser->mahasiswa->id;
+
+        $request->validate([
+            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+    
+        if ($request->hasFile('gambar')) {
+            $namaGambar = time() .'M'. $mahasiswaId . '.' . $request->gambar->extension();
+
+            $path = $request->file('gambar')->storeAs('images', $namaGambar, 'public');
+            
+            $data = RiwayatPembayaran::findOrFail($id);
+            $data->gambar = $path;
+            $data->status = 'pending';
+            $data->save();
+    
+            return redirect()->route('pengajuan')->with('success', 'Gambar bukti pembayaran berhasil diubah');
+        }
     }
 
     /**
@@ -83,5 +116,32 @@ class RiwayatPembayaranController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function rejected(Request $request, $id)
+    {
+        $request->validate([
+            'keterangan' => 'max:255',
+        ]);
+
+        $riwayatPembayaran = RiwayatPembayaran::findOrFail($id);
+        $riwayatPembayaran->admin_id = Auth::user()->admin->id;
+        $riwayatPembayaran->keterangan = $request->keterangan;
+        $riwayatPembayaran->status = 'rejected';
+        $riwayatPembayaran->save();
+        return redirect()->route('riwayatPembayaran')->with('success', 'Pembayaran ditolak');
+    }
+
+    public function verified(Request $request, $id)
+    {
+        $request->validate([
+            'keterangan' => 'max:255',
+        ]);
+
+        $riwayatPembayaran = RiwayatPembayaran::findOrFail($id);
+        $riwayatPembayaran->admin_id = Auth::user()->admin->id;
+        $riwayatPembayaran->status = 'verified';
+        $riwayatPembayaran->save();
+        return redirect()->route('riwayatPembayaran')->with('success', 'Pembayaran dikonfirmasi');
     }
 }

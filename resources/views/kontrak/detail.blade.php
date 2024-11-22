@@ -2,24 +2,25 @@
     <x-slot name="header">
         <div class="flex items-center">
             <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Kontrak KRS /') }}
+                {{ __('Akademik /') }}
             </h2>
             &nbsp;
+            <a href="{{route('kontrak')}}">
+                <h2 class="font-normal text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    {{ __('Kontrak KRS /') }}
+                </h2>
+            </a>
+            &nbsp;
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Kartu Rencana Studi') }}
+                {{ $riwayatPembayaran->mahasiswa->user->name .' - '.
+                ucfirst($riwayatPembayaran->semester->nama_semester . ' ' . $riwayatPembayaran->semester->tahun_ajaran)
+                }}
             </h2>
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            @if(session('success'))
-            <x-toast type="success" :messages="[session('success')]" />
-            @elseif(session('errors'))
-            <x-toast type="error" :messages="session('errors')->all()" />
-            @endif
-
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-between">
@@ -36,18 +37,13 @@
                             </svg>
                         </button>
                     </div>
-                    {{-- @include('mahasiswa.add') --}}
+                    {{-- @include('mahasiswa.print') --}}
                     <table id="search-table">
                         <thead>
                             <tr>
                                 <th>
                                     <span class="flex items-center">
                                         No
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
-                                        Semester
                                     </span>
                                 </th>
                                 <th>
@@ -73,19 +69,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($data as $admin) --}}
+                            @foreach ($data as $kontrakKrs)
 
                             <tr>
                                 <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1</td>
-                                <td>Genap 2024</td>
-                                <td>Sistem Informasi</td>
-                                <td>Drs. Dokter Handers.TFT</td>
-                                <td>13:00 - 14:30</td>
-                                <td>3</td>
+                                    {{$loop->iteration}}</td>
+                                <td>{{ $kontrakKrs->krs->matkul->kode_mk . ' - ' . $kontrakKrs->krs->matkul->nama_mk }}
+                                </td>
+                                <td>{{ $kontrakKrs->krs->dosen->nidn . ' - ' . $kontrakKrs->krs->dosen->nama_dosen }}
+                                </td>
+                                <td>{{ $kontrakKrs->mulai . ' - ' . $kontrakKrs->selesai }}</td>
+                                <td>{{ $kontrakKrs->krs->matkul->sks }}</td>
                             </tr>
 
-                            {{-- @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

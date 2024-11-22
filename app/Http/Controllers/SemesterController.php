@@ -31,6 +31,7 @@ class SemesterController extends Controller
     {
         $request->validate([
             'nama_semester' => 'required',
+            'tahun_ajaran' => 'required',
             'mulai_kontrak'=> ['required','date'],
             'tutup_kontrak' => ['required','date'],
             'nominal_pembayaran' => ['required', 'numeric'],
@@ -41,6 +42,7 @@ class SemesterController extends Controller
 
         $semester = new Semester;
         $semester->nama_semester = $request->nama_semester;
+        $semester->tahun_ajaran = $request->tahun_ajaran;
         $semester->mulai_kontrak = $mulai_kontrak;
         $semester->tutup_kontrak = $tutup_kontrak;
         $semester->nominal_pembayaran = $request->nominal_pembayaran;
@@ -72,6 +74,7 @@ class SemesterController extends Controller
     {
         $request->validate([
             'nama_semester' => 'required',
+            'tahun_ajaran' => 'required',
             'mulai_kontrak'=> ['required','date'],
             'tutup_kontrak' => ['required','date'],
             'nominal_pembayaran' => ['required', 'numeric'],
@@ -82,6 +85,7 @@ class SemesterController extends Controller
 
         $semester = Semester::findorFail($id);
         $semester->nama_semester = $request->nama_semester;
+        $semester->tahun_ajaran = $request->tahun_ajaran;
         $semester->mulai_kontrak = $mulai_kontrak;
         $semester->tutup_kontrak = $tutup_kontrak;
         $semester->nominal_pembayaran = $request->nominal_pembayaran;

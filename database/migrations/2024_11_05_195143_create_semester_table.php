@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('semester', function (Blueprint $table) {
             $table->id();
             $table->string('nama_semester');
+            $table->string('tahun_ajaran');
             $table->date('mulai_kontrak');
             $table->date('tutup_kontrak');
             $table->decimal('nominal_pembayaran', 12, 2);

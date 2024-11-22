@@ -5,7 +5,7 @@ use App\Http\Controllers\RiwayatPembayaranController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\JurusanController;
-use App\Http\Controllers\KontrakController;
+use App\Http\Controllers\KrsKontrakController;
 use App\Http\Controllers\JadwalPerkuliahanController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MataKuiiahController;
@@ -92,17 +92,24 @@ Route::middleware('auth')->group(function () {
 
     Route::group(['middleware' => ['role:mahasiswa']], function () {
         Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
-        Route::get('/pengajuan/detail', [PengajuanController::class, 'detail'])->name('pengajuan.detail'); 
-        Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create'); 
+        Route::get('/pengajuan/{id}', [PengajuanController::class, 'show'])->name('pengajuan.show'); 
+        Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create');
+        Route::post('/pengajuan/store/{id}', [PengajuanController::class, 'store'])->name('pengajuan.store');
     });
 
     //Bukti Pembayaran
     Route::get('/riwayatPembayaran', [RiwayatPembayaranController::class, 'index'])->name('riwayatPembayaran');
-    Route::get('/riwayatPembayaran/detail', [RiwayatPembayaranController::class, 'show'])->name('riwayatPembayaran.detail');
+    Route::get('/riwayatPembayaran/{id}', [RiwayatPembayaranController::class, 'show'])->name('riwayatPembayaran.show');
+    Route::patch('/riwayatPembayaran/rejected/{id}', [RiwayatPembayaranController::class, 'rejected'])->name('riwayatPembayaran.rejected');
+    Route::patch('/riwayatPembayaran/verified/{id}', [RiwayatPembayaranController::class, 'verified'])->name('riwayatPembayaran.verified');
+    Route::patch('/riwayatPembayaran/update/{id}', [RiwayatPembayaranController::class, 'update'])->name('riwayatPembayaran.update');
+
         
     //kontrak
-    Route::get('/kontrak', [KontrakController::class, 'index'])->name('kontrak');
-    Route::get('/kontrak/detail', [KontrakController::class, 'show'])->name('kontrak.detail');
+    Route::get('/kontrak', [KrsKontrakController::class, 'index'])->name('kontrak');
+    Route::get('/kontrak/create/{id}', [KrsKontrakController::class, 'create'])->name('kontrak.create');
+    Route::post('/kontrak/store/{id}', [KrsKontrakController::class, 'store'])->name('kontrak.store');
+    Route::get('/kontrak/detail/{id}', [KrsKontrakController::class, 'detail'])->name('kontrak.detail');
 
 });
 
