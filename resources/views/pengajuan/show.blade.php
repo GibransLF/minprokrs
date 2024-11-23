@@ -15,6 +15,15 @@
 
     <div class="pt-12 -b-1">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 ">
+
+            @if(session('success'))
+            <x-toast type="success" :messages="[session('success')]" />
+            @elseif($errors->any())
+            <x-toast type="error" :messages="session('errors')->all()" />
+            @elseif(session('error'))
+            <x-toast type="error" :messages="[session('error')]" />
+            @endif
+
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 justify-center">
                     <div class="flex flex-col justify-between p-4 leading-normal w-full">
