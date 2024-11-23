@@ -40,7 +40,7 @@
                 </div>
                 <div class="grid gap-4 mb-4 mt-4 grid-cols-2">
                     <div class="col-span-2">
-                        <div class="max-w-[16rem] mx-auto grid grid-cols-2 gap-4">
+                        <div class="max-w-auto mx-auto grid grid-cols-2 gap-4">
                             <div>
                                 <label for="mulai"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Waktu

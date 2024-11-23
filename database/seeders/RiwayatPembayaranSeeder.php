@@ -19,7 +19,7 @@ class RiwayatPembayaranSeeder extends Seeder
             'jurusan_id' => '1',
             'kode_pembayaran' => '1731938031M1',
             'gambar' => 'images/1731938031M1.jpg',
-            'status' => 'canceled',
+            'status' => 'rejected',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

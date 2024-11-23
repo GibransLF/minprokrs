@@ -23,7 +23,7 @@ class RiwayatPembayaranController extends Controller
             $nim = $request->input('nim','all');
             $nim == '' ? $nim = 'all' : $nim;
 
-            $query = RiwayatPembayaran::with('mahasiswa')->orderByRaw("FIELD(status, 'pending', 'canceled', 'confirmed')");
+            $query = RiwayatPembayaran::with('mahasiswa')->orderByRaw("FIELD(status, 'pending', 'rejected', 'completed')");
 
             if ($nim !== 'all') {
                 $query->whereHas('mahasiswa', function ($query) use ($nim) {
@@ -34,7 +34,7 @@ class RiwayatPembayaranController extends Controller
             $data = $query->paginate($perPage);
         }
         else{
-            $query = RiwayatPembayaran::where('mahasiswa_id', $user->mahasiswa->id)->orderByRaw("FIELD(status, 'pending', 'canceled', 'confirmed')");
+            $query = RiwayatPembayaran::where('mahasiswa_id', $user->mahasiswa->id)->orderByRaw("FIELD(status, 'pending','verified', 'rejected', 'completed')");
 
             $data = $query->paginate($perPage);
         }
@@ -72,6 +72,7 @@ class RiwayatPembayaranController extends Controller
         ->whereHas('semester', function ($query) use ($jurusanId) {
             $query->where('jurusan_id', $jurusanId);
         })
+        ->orderBy('mulai')
         ->get();
         return view('riwayatPembayaran.show', compact('riwayatPembayaran',  'data'));
     }

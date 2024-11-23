@@ -99,11 +99,15 @@
                                         class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
                                         {{ ucfirst($riwayatPembayaran->status) }}
                                     </span>
-                                    @else
+                                    @elseif ($riwayatPembayaran->status == 'verified')
                                     <span
                                         class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                                         {{ ucfirst($riwayatPembayaran->status) }}
                                     </span>
+                                    @else
+                                    <span
+                                        class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">{{
+                                        ucfirst($riwayatPembayaran->status) }}</span>
                                     @endif
                                 </div>
                             </header>
@@ -114,8 +118,7 @@
                                 }}</p>
                             <p class="text-gray-900 dark:text-gray-900 font-bold">
                                 Konfirmasi oleh:
-                                {{ ($riwayatPembayaran->admin?->user?->name) ?
-                                '$riwayatPembayaran->admin->user->name' : '-'}}</p>
+                                {{ $riwayatPembayaran->admin->user->name ?? '-' }}</p>
                             <p class="text-gray-900 dark:text-gray-900 font-bold">
                                 Mahasiswa:
                                 {{ $riwayatPembayaran->mahasiswa->nim }}

@@ -55,6 +55,11 @@
                                 </th>
                                 <th>
                                     <span class="flex items-center">
+                                        Jurusan
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="flex items-center">
                                         Dosen
                                     </span>
                                 </th>
@@ -86,6 +91,7 @@
                             <tr>
                                 <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $loop->iteration }}</td>
+                                <td>{{ $krs->jurusan->nama_jurusan}}</td>
                                 <td>{{ $krs->dosen->nidn . ' - ' . $krs->dosen->nama_dosen }}</td>
                                 <td>{{ $krs->matkul->kode_mk . ' - ' . $krs->matkul->nama_mk }}</td>
                                 <td>{{ $krs->mulai . ' - ' . $krs->selesai }}</td>

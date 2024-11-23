@@ -22,15 +22,16 @@ class KrsKontrakController extends Controller
         if ($userRoles == 'admin') {
             $data = RiwayatPembayaran::with(['semester', 'mahasiswa'])
             ->withCount('krsKontrak')
-            ->where('status', 'verified')
+            ->where('status', 'completed')
             ->get();
         }
         else{
             $mahasiswaId = $user->mahasiswa->id;
             $data = RiwayatPembayaran::with(['semester'])
             ->withCount('krsKontrak')
-            ->where('status', 'verified')
+            ->where('status', 'completed')
             ->where('mahasiswa_id', $mahasiswaId)
+            ->orderBy('created_at', 'desc')
             ->get();
         }
 
@@ -54,6 +55,7 @@ class KrsKontrakController extends Controller
         ->whereHas('semester', function ($query) use ($jurusanId) {
             $query->where('jurusan_id', $jurusanId);
         })
+        ->orderBy('mulai')
         ->get();
 
         return view('kontrak.create', compact('riwayatPembayaran','data'));
@@ -78,7 +80,6 @@ class KrsKontrakController extends Controller
         $mahasiswaId = $riwayatPembayaran->mahasiswa_id;
         $riwayatPembayaranId = $riwayatPembayaran->id;
 
-    
         foreach ($krsIds as $krsId) {
             DB::table('krs_kontrak')->insert([
                 'mahasiswa_id' => $mahasiswaId,
@@ -90,6 +91,9 @@ class KrsKontrakController extends Controller
                 'updated_at' => now(),
             ]);
         }
+
+        $riwayatPembayaran->status = 'completed';
+        $riwayatPembayaran->save();
     
         return redirect()->route('kontrak')->with('success', 'Data berhasil diisi.');
     }
@@ -129,7 +133,8 @@ class KrsKontrakController extends Controller
         $riwayatPembayaran = RiwayatPembayaran::findOrFail($id);
         $data = KrsKontrak::with(['krs','krs.matkul', 'riwayatPembayaran'])
         ->where('riwayat_pembayaran_id', $id)
-        ->get();
+        ->get()
+        ->sortBy('krs.mulai');
 
         return view('kontrak.detail', compact('data', 'riwayatPembayaran'));
     }

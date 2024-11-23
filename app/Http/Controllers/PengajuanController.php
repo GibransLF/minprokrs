@@ -35,6 +35,7 @@ class PengajuanController extends Controller
                 ->where('tutup_kontrak', '>=', now());
         })
         ->where('mahasiswa_id', $mahasiswaId)
+        ->orderByRaw("FIELD(status, 'pending','verified', 'rejected', 'completed')")
         ->get();
 
         return view('pengajuan.index', compact('dataDibuka', 'dataRiwayatPembayaran'));
@@ -63,7 +64,7 @@ class PengajuanController extends Controller
         ]);
     
         if ($request->hasFile('gambar')) {
-            $kodePembayaran = 'SBC'. now()->format('dmY') . 'M' . $mahasiswaId; 
+            $kodePembayaran = 'SBC'. now()->format('dmY') .time(). 'M' . $mahasiswaId; 
             $namaGambar = time() .'M'. $mahasiswaId . '.' . $request->gambar->extension();
 
             $path = $request->file('gambar')->storeAs('images', $namaGambar, 'public');
@@ -89,7 +90,7 @@ class PengajuanController extends Controller
         $jurusanId = $loggedInUser->mahasiswa->jurusan_id;
         $semester = Semester::findOrFail($id);
         
-        $data = Krs::where('semester_id', $id)->where('jurusan_id', $jurusanId)->get();
+        $data = Krs::where('semester_id', $id)->where('jurusan_id', $jurusanId)->orderBy('mulai', 'asc')->get();
         
         return view('pengajuan.show', compact('semester','data'));
     }

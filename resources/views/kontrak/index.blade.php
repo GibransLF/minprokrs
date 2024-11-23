@@ -52,7 +52,7 @@
                                 </th>
                                 <th>
                                     <span class="flex items-center">
-                                        Total KRS
+                                        Total dikontrak
                                     </span>
                                 </th>
                                 <th>

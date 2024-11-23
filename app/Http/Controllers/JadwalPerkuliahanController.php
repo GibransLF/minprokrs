@@ -15,7 +15,7 @@ class JadwalPerkuliahanController extends Controller
     public function index(string $id)
     {
         $semester = Semester::findOrFail($id);
-        $data = Krs::with('matkul', 'dosen', 'semester' , 'jurusan')->where('semester_id', $id)->get();
+        $data = Krs::with('matkul', 'dosen', 'semester' , 'jurusan')->where('semester_id', $id)->orderBy('mulai')->get();
         $mataKuliah = MataKuliah::with('dosen','jurusan')->get();
 
         return view('jadwalPerkuliahan.index', compact('semester','data', 'mataKuliah'));

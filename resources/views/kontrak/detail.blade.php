@@ -78,7 +78,7 @@
                                 </td>
                                 <td>{{ $kontrakKrs->krs->dosen->nidn . ' - ' . $kontrakKrs->krs->dosen->nama_dosen }}
                                 </td>
-                                <td>{{ $kontrakKrs->mulai . ' - ' . $kontrakKrs->selesai }}</td>
+                                <td>{{ $kontrakKrs->krs->mulai . ' - ' . $kontrakKrs->krs->selesai }}</td>
                                 <td>{{ $kontrakKrs->krs->matkul->sks }}</td>
                             </tr>
 
