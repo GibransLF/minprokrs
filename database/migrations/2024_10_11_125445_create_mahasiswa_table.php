@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('fakultas_id')->constrained('jurusan');
             $table->foreignId('jurusan_id')->constrained('jurusan');
             $table->string('nim')->unique();
-            $table->string('verifikasi');
             $table->timestamps();
         });
     }

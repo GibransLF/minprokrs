@@ -154,46 +154,118 @@
                     @endrole
 
                     @role('mahasiswa')
-                    {{-- Mahasiswa --}}
-                    <div
-                        class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <svg class="w-7 h-7 text-gray-500 hover:text-gray-800 dark:text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path fill-rule="evenodd"
-                                d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z"
-                                clip-rule="evenodd" />
-                        </svg>
-
-
-                        <div>
-                            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                                Mahasiswa</h5>
-                        </div>
-                        <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status Verified
-                            <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">250
-                            </span>
-                        </p>
-                        <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status
-                            Pending
-                            <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">250
-                            </span>
-                        </p>
-                        <a href="{{route('mahasiswa')}}"
-                            class="inline-flex font-medium items-center text-blue-600 hover:underline">
-                            Lihat Selengkapnya
-                            <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {{-- KRS --}}
+                        <div
+                            class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <svg class="w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z"
+                                    clip-rule="evenodd" />
                             </svg>
-                        </a>
+
+                            <div>
+                                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                    KRS</h5>
+                            </div>
+                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status Verified
+                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">250
+                                </span>
+                            </p>
+                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status
+                                Pending
+                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">250
+                                </span>
+                            </p>
+                            <a href="{{route('mahasiswa')}}"
+                                class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                                Lihat Selengkapnya
+                                <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                                </svg>
+                            </a>
+                        </div>
+                        {{-- SKS --}}
+                        <div
+                            class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <svg class="w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                            <div>
+                                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                    SKS</h5>
+                            </div>
+                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status Verified
+                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">250
+                                </span>
+                            </p>
+                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status
+                                Pending
+                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">250
+                                </span>
+                            </p>
+                            <a href="{{route('mahasiswa')}}"
+                                class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                                Lihat Selengkapnya
+                                <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                                </svg>
+                            </a>
+                        </div>
+                        {{-- Kontrak --}}
+                        <div
+                            class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <svg class="w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                            <div>
+                                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                    Kontrak</h5>
+                            </div>
+                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status Verified
+                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">250
+                                </span>
+                            </p>
+                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status
+                                Pending
+                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">250
+                                </span>
+                            </p>
+                            <a href="{{route('mahasiswa')}}"
+                                class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                                Lihat Selengkapnya
+                                <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                                </svg>
+                            </a>
+                        </div>
                     </div>
                     @if(count($semesters) == 0)
                     <div
-                        class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                        <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Semester baru belum tersedia
+                        class="mt-8 w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                        <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Semester baru belum
+                            tersedia
                         </h5>
                         <p class="mb-5 text-base text-gray-500 sm:text-lg dark:text-gray-400">Persiapkan diri anda
                             untuk
@@ -218,7 +290,7 @@
                     </div>
                     @else
                     <div
-                        class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                        class="mt-8 w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                         <h5 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Semester baru telah
                             tersedia
                         </h5>

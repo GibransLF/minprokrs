@@ -28,7 +28,6 @@ class MahasiswaSeeder extends Seeder
             'fakultas_id'=> '1',
             'jurusan_id'=> '1',
             'nim' => '0123210',
-            'verifikasi' => 'verified',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
