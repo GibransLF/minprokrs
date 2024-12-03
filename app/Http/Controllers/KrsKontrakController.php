@@ -96,7 +96,7 @@ class KrsKontrakController extends Controller
         $riwayatPembayaran->status = 'completed';
         $riwayatPembayaran->save();
     
-        return redirect()->route('kontrak')->with('success', 'Data berhasil diisi.');
+        return redirect()->route('kontrak,success', $riwayatPembayaran->id);
     }
 
     /**
@@ -150,5 +150,27 @@ class KrsKontrakController extends Controller
         $pdf = Pdf::loadView('kontrak.print', compact('data', 'riwayatPembayaran'));
     
         return $pdf->stream($riwayatPembayaran->kode_pembayaran. '.pdf');
+    }
+
+    public function success(string $id)
+    {
+        $user = Auth::user();
+        $userRoles = $user->roles->first()->name;
+
+        try {
+            // Cari riwayat pembayaran
+            $riwayatPembayaran = RiwayatPembayaran::findOrFail($id);
+            
+            // Cek otorisasi
+            if ($userRoles == 'admin' || $riwayatPembayaran->mahasiswa_id === $user->mahasiswa->id) {
+                return view("kontrak.success", compact('riwayatPembayaran'));
+            }
+            
+            // Jika tidak punya akses
+            abort(403, 'Anda tidak memiliki izin untuk mengakses dokumen ini');
+        } catch (\Exception $e) {
+            // Tangani error dengan baik
+            return redirect()->back()->with('error', 'Dokumen tidak ditemukan');
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Dosen;
+use App\Models\KrsKontrak;
 use App\Models\Mahasiswa;
 use App\Models\RiwayatPembayaran;
 use App\Models\Semester;
@@ -34,10 +35,29 @@ class DashboardController extends Controller
         }
         else
         {
-            
+            $mahasiswaId = $user->mahasiswa->id;
+
+            $sumSks =KrsKontrak::with('krs.mataKuliah')
+            ->where('mahasiswa_id', $mahasiswaId)
+            ->get()
+            ->sum(function ($kontrak) {
+                return $kontrak->krs->mataKuliah->sks ?? 0;
+            });
+
+            $sumKontrak = RiwayatPembayaran::where('mahasiswa_id', $mahasiswaId)->where('status', 'completed')->count();
+
             $semesters = Semester::where('mulai_kontrak', '<=', now())
             ->where('tutup_kontrak', '>=', now())->get();
-            return view('dashboard', compact('semesters'));
+
+            $info = RiwayatPembayaran::with('semester')
+            ->whereHas('semester', function($query) {
+                $query->where('mulai_kontrak', '<=', now())
+                    ->where('tutup_kontrak', '>=', now());
+            })
+            ->where('mahasiswa_id', $mahasiswaId)
+            ->get()->first();
+
+            return view('dashboard', compact('semesters', 'info', 'sumSks', 'sumKontrak'));
         }
     }
 

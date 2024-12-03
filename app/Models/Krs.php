@@ -37,4 +37,8 @@ class Krs extends Model
     {
         return $this->belongsTo(Semester::class, 'semester_id');
     }
+    public function mataKuliah(): BelongsTo
+    {
+        return $this->belongsTo(MataKuliah::class, 'mk_id');
+    }
 }
