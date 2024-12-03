@@ -25,10 +25,12 @@ class DashboardController extends Controller
             $mhsPending = Mahasiswa::where('verifikasi', 'pending')->count();
             $dosenT = Dosen::count();
             $rpPending = RiwayatPembayaran::where('status', 'pending')->count();
+
             $semesters = Semester::where('mulai_kontrak', '<=', now())
             ->where('tutup_kontrak', '>=', now())->get();
+            $rp = RiwayatPembayaran::with('mahasiswa')->where('status', 'pending')->get();
 
-            return view('dashboard', compact('dosenT', 'mhsVerified', 'mhsPending', 'rpPending',  'semesters'));
+            return view('dashboard', compact('dosenT', 'mhsVerified', 'mhsPending', 'rpPending',  'semesters', 'rp'));
         }
         else
         {

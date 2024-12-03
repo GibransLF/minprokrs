@@ -25,7 +25,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-between">
                         <p class="text-4xl font-semibold text-gray-900 dark:text-white">Kartu Rencana Studi</p>
-                        <button data-modal-target="add-modal" data-modal-toggle="add-modal" type="button"
+                        <a href="{{ route('kontrak.download', $riwayatPembayaran->id) }}"
                             class="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             <span class="mr-2">Print</span>
                             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
@@ -35,9 +35,8 @@
                                     d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z"
                                     clip-rule="evenodd" />
                             </svg>
-                        </button>
+                        </a>
                     </div>
-                    {{-- @include('mahasiswa.print') --}}
                     <table id="search-table">
                         <thead>
                             <tr>

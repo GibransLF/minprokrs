@@ -65,7 +65,7 @@ class PengajuanController extends Controller
     
         if ($request->hasFile('gambar')) {
             $kodePembayaran = 'SBC'. now()->format('dmY') .time(). 'M' . $mahasiswaId; 
-            $namaGambar = time() .'M'. $mahasiswaId . '.' . $request->gambar->extension();
+            $namaGambar = 'SBC'. now()->format('dmY') . time() .'M'. $mahasiswaId . '.' . $request->gambar->extension();
 
             $path = $request->file('gambar')->storeAs('images', $namaGambar, 'public');
             

@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/kontrak/create/{id}', [KrsKontrakController::class, 'create'])->name('kontrak.create');
     Route::post('/kontrak/store/{id}', [KrsKontrakController::class, 'store'])->name('kontrak.store');
     Route::get('/kontrak/detail/{id}', [KrsKontrakController::class, 'detail'])->name('kontrak.detail');
+    Route::get('/kontrak/download/{id}', [KrsKontrakController::class, 'download'])->name('kontrak.download');
 
 });
 

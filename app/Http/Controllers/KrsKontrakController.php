@@ -8,6 +8,7 @@ use App\Models\RiwayatPembayaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KrsKontrakController extends Controller
 {
@@ -137,5 +138,17 @@ class KrsKontrakController extends Controller
         ->sortBy('krs.mulai');
 
         return view('kontrak.detail', compact('data', 'riwayatPembayaran'));
+    }
+
+    public function download(string $id) {
+        $riwayatPembayaran = RiwayatPembayaran::findOrFail($id);
+        $data = KrsKontrak::with(['krs','krs.matkul', 'riwayatPembayaran'])
+        ->where('riwayat_pembayaran_id', $id)
+        ->get()
+        ->sortBy('krs.mulai');
+
+        $pdf = Pdf::loadView('kontrak.print', compact('data', 'riwayatPembayaran'));
+    
+        return $pdf->stream($riwayatPembayaran->kode_pembayaran. '.pdf');
     }
 }

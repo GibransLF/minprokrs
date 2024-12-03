@@ -116,11 +116,12 @@
                     @foreach ($semesters as $semester)
                     <a href="{{ route('semester') }}"
                         class="flex flex-col mb-4 items-center m-auto bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-3xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <img class="object-cover w-auto rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                            src="{{asset('img/logoSTMIK.png')}}" alt="">
                         <div class="flex flex-col justify-between p-4 leading-normal w-full">
                             <header>
-                                <div class="flex justify-end items-center">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-900 dark:text-gray-900 font-bold">
+                                        Semester
+                                    </span>
                                     <span
                                         class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                         {{ ucfirst("Dibuka") }}
@@ -131,10 +132,10 @@
                             <p class="text-gray-900 dark:text-gray-900 font-bold">Semester
                                 {{ ucfirst($semester->nama_semester) . ' ' . $semester->tahun_ajaran
                                 }}</p>
-                            <span
-                                class="flex justify-end text-sm font-bold tracking-tight text-gray-900 dark:text-white">Dibuka
+                            <p class="flex text-sm font-bold tracking-tight text-gray-900 dark:text-white">
+                                Dibuka
                                 sampai {{ date('d-m-Y', strtotime($semester->mulai_kontrak)) }} - {{ date('d-m-Y',
-                                strtotime($semester->tutup_kontrak)) }}</span>
+                                strtotime($semester->tutup_kontrak)) }}</p>
                             <footer class="mt-1">
                                 <hr class="h-px bg-gray-400 border-0 dark:bg-gray-700">
                                 <div class="flex justify-between">
@@ -144,6 +145,44 @@
                                         <span
                                             class="text-sm text-gray-600 dark:text-gray-400 font-bold">Rp.{{number_format($semester->nominal_pembayaran,
                                             2, ',', '.') }}</span>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+
+                        <div class="flex flex-col justify-between p-4 leading-normal w-full">
+                            <header>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-900 dark:text-gray-900 font-bold">
+                                        Mahasiswa
+                                    </span>
+                                    <span
+                                        class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                                        {{ ucfirst("Pending") }}
+                                    </span>
+                                </div>
+                            </header>
+                            <hr class="h-px bg-gray-400 border-0 dark:bg-gray-700 mb-2">
+                            @if($rpPending != 0)
+                            @foreach ($rp as $rpm)
+
+                            <p class="text-gray-900 dark:text-gray-900 font-bold">
+                                {{$rpm->mahasiswa->nim}}
+                                &nbsp;-&nbsp;
+                                ucwords{{$rpm->mahasiswa->user->name}}</p>
+                            @endforeach
+                            @else
+                            <p class="text-gray-900 dark:text-gray-900 font-bold">
+                                Tidak ada mahasiswa</p>
+                            @endif
+                            <footer class="mt-1">
+                                <hr class="h-px bg-gray-400 border-0 dark:bg-gray-700">
+                                <div class="flex justify-between">
+                                    <div>
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Total Mahasiswa
+                                        </span>
+                                        <span
+                                            class="text-sm text-gray-600 dark:text-gray-400 font-bold">{{$rpPending}}</span>
                                     </div>
                                 </div>
                             </footer>
