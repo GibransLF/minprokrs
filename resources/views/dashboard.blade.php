@@ -58,13 +58,8 @@
                                 <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                                     Mahasiswa</h5>
                             </div>
-                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status Verified
-                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">{{$mhsVerified}}
-                                </span>
-                            </p>
-                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Status
-                                Pending
-                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">{{$mhsPending}}
+                            <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Total Akun Mahasiswa
+                                <span class="font-bold text-blue-800 dark:text-blue-200 leading-tight">{{$akunMhs}}
                                 </span>
                             </p>
                             <a href="{{route('mahasiswa')}}"
@@ -114,9 +109,10 @@
                     </p>
                     @endif
                     @foreach ($semesters as $semester)
-                    <a href="{{ route('semester') }}"
+                    <div
                         class="flex flex-col mb-4 items-center m-auto bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-3xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                        <div class="flex flex-col justify-between p-4 leading-normal w-full">
+                        <a href="{{ route('semester') }}" class=" flex flex-col justify-between p-4 leading-normal
+                            w-full">
                             <header>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-900 dark:text-gray-900 font-bold">
@@ -148,9 +144,10 @@
                                     </div>
                                 </div>
                             </footer>
-                        </div>
+                        </a>
 
-                        <div class="flex flex-col justify-between p-4 leading-normal w-full">
+                        <a href="{{ route('riwayatPembayaran') }}"
+                            class="flex flex-col justify-between p-4 leading-normal w-full">
                             <header>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-900 dark:text-gray-900 font-bold">
@@ -186,8 +183,8 @@
                                     </div>
                                 </div>
                             </footer>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                     @endforeach
 
                     @endrole

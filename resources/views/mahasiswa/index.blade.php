@@ -63,11 +63,6 @@
                                 </th>
                                 <th>
                                     <span class="flex items-center">
-                                        Verifikasi
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
                                         Action
                                     </span>
                                 </th>
@@ -82,27 +77,6 @@
                                 <td>{{$mhs->nim}}</td>
                                 <td>{{$mhs->user->name}}</td>
                                 <td>{{$mhs->jurusan->nama_jurusan}}</td>
-                                <td>
-                                    @if($mhs->verifikasi == 'pending')
-                                    <button data-modal-target="verif-modal{{$mhs->id}}"
-                                        data-modal-toggle="verif-modal{{$mhs->id}}"
-                                        class=" bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
-                                        {{ ucfirst($mhs->verifikasi) }}
-                                    </button>
-                                    @include('mahasiswa.verification')
-                                    @elseif($mhs->verifikasi == 'verified')
-                                    <span
-                                        class=" bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-                                        {{ ucfirst($mhs->verifikasi) }}
-                                    </span>
-                                    @else
-                                    <span
-                                        class=" bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-                                        {{ ucfirst($mhs->verifikasi) }}
-                                    </span>
-                                    @endif
-
-                                </td>
                                 <td>
                                     <button type="button" data-modal-target="detail-modal{{$mhs->id}}"
                                         data-modal-toggle="detail-modal{{$mhs->id}}"

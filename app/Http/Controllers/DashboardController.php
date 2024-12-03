@@ -22,8 +22,7 @@ class DashboardController extends Controller
         $userRoles = $user->roles->first()->name;
 
         if($userRoles == 'admin'){
-            $mhsVerified = Mahasiswa::where('verifikasi', 'verified')->count();
-            $mhsPending = Mahasiswa::where('verifikasi', 'pending')->count();
+            $akunMhs = Mahasiswa::count();
             $dosenT = Dosen::count();
             $rpPending = RiwayatPembayaran::where('status', 'pending')->count();
 
@@ -31,7 +30,7 @@ class DashboardController extends Controller
             ->where('tutup_kontrak', '>=', now())->get();
             $rp = RiwayatPembayaran::with('mahasiswa')->where('status', 'pending')->get();
 
-            return view('dashboard', compact('dosenT', 'mhsVerified', 'mhsPending', 'rpPending',  'semesters', 'rp'));
+            return view('dashboard', compact('dosenT', 'akunMhs', 'rpPending',  'semesters', 'rp'));
         }
         else
         {
@@ -56,6 +55,8 @@ class DashboardController extends Controller
             })
             ->where('mahasiswa_id', $mahasiswaId)
             ->get()->first();
+
+            $info = $info ?? (object)['status' => 'null'];
 
             return view('dashboard', compact('semesters', 'info', 'sumSks', 'sumKontrak'));
         }

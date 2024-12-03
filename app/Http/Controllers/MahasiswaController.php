@@ -57,7 +57,6 @@ class MahasiswaController extends Controller
         $mahasiswa->fakultas_id = $request->fakultas;
         $mahasiswa->jurusan_id = $request->jurusan;
         $mahasiswa->nim = $request->nim;
-        $mahasiswa->verifikasi = 'pending';
         $mahasiswa->save();
 
         return redirect('/mahasiswa')->with('success', 'Data Mahasiswa berhasil ditambahkan');
@@ -126,20 +125,6 @@ class MahasiswaController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Mahasiswa gagal dihapus '. $e->getMessage());
         }
-    }
-
-    public function verificationVerified(string $id){
-        $data = Mahasiswa::findOrFail($id);
-        $data->verifikasi = 'verified';
-        $data->save();
-        return redirect()->route('mahasiswa')->with('success', 'Data Mahasiswa diverifikasi');
-    }
-
-    public function verificationRejected(string $id){
-        $data = Mahasiswa::findOrFail($id);
-        $data->verifikasi = 'rejected';
-        $data->save();
-        return redirect()->route('mahasiswa')->with('success', 'Data Mahasiswa ditolak');
     }
 
     public function changePass(string $id){

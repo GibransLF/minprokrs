@@ -54,7 +54,6 @@ class RegisteredUserController extends Controller
             'fakultas_id' => $request->fakultas,
             'jurusan_id' => $request->jurusan,
             'nim' => $request->nim,
-            'verifikasi' => 'pending'
         ]);
 
         Auth::login($user);

@@ -96,7 +96,7 @@ class KrsKontrakController extends Controller
         $riwayatPembayaran->status = 'completed';
         $riwayatPembayaran->save();
     
-        return redirect()->route('kontrak,success', $riwayatPembayaran->id);
+        return redirect()->route('kontrak.success', $riwayatPembayaran->id);
     }
 
     /**
