@@ -71,7 +71,7 @@
                 @if (Route::has('register'))
                 <a href="{{ route('register') }}"
                     class="border border-gray-300 text-gray-800 px-6 py-3 rounded-md shadow-lg hover:bg-gray-200 transform hover:scale-105 ml-4">
-                    Sudah Punya Akun?
+                    Belum Punya Akun?
                 </a>
                 @endif
 

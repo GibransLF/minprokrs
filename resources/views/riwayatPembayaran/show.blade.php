@@ -163,7 +163,7 @@
                                 <span class="text-gray-700 dark:text-gray-400 text-green-500">Total
                                     Pembayaran</span>
                                 <span
-                                    class="text-gray-700 dark:text-gray-400 text-green-500">Rp.{{number_format('2500000',
+                                    class="text-gray-700 dark:text-gray-400 text-green-500">Rp.{{number_format($riwayatPembayaran->semester->nominal_pembayaran,
                                     2, ',', '.') }}</span>
                             </div>
                         </footer>
