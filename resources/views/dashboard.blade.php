@@ -166,7 +166,7 @@
                             <p class="text-gray-900 dark:text-gray-900 font-bold">
                                 {{$rpm->mahasiswa->nim}}
                                 &nbsp;-&nbsp;
-                                ucwords{{$rpm->mahasiswa->user->name}}</p>
+                                {{ucwords($rpm->mahasiswa->user->name)}}</p>
                             @endforeach
                             @else
                             <p class="text-gray-900 dark:text-gray-900 font-bold">
