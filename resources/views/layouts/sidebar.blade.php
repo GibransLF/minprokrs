@@ -121,9 +121,9 @@
 
             </x-side-dropdown-link>
          </li>
-         {{-- Master Data --}}
+         {{-- user admin --}}
          <li>
-            <x-side-dropdown-link title="Master Data" :active="request()->routeIs('admin')">
+            <x-side-dropdown-link title="User" :active="request()->routeIs('admin')">
                <x-slot name="icon">
                   <svg
                      class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
