@@ -67,7 +67,7 @@
                             <option value="{{now()->year}}-{{now()->year + 1}}" hidden>{{now()->year}}-{{now()->year +
                                 1}}
                             </option>
-                            @for($i = now()->year - 2; $i <= now()->year + 2; $i++)
+                            @for($i = now()->year; $i <= now()->year + 3; $i++)
                                 @php
                                 $j = $i + 1;
                                 @endphp
@@ -120,6 +120,16 @@
                             placeholder="Masukan nominal pembayaran dalam Rupiah" required=""
                             value="{{ old('nominal_pembayaran') }}">
                         <x-input-error :messages="$errors->get('nominal_pembayaran')" class="mt-2" />
+                    </div>
+
+                    <div class="col-span-2">
+                        <label for="deskripsi"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi detal
+                            pembayaran</label>
+                        <textarea id="deskripsi" name="deskripsi" rows="4"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Semester Rp {{number_format(500000)}}, Kontrak Rp {{number_format(250000)}}"></textarea>
+                        <x-input-error :messages="$errors->get('deskripsi')" class="mt-2" />
                     </div>
                 </div>
                 <button type="submit"

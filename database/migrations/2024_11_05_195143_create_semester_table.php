@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('mulai_kontrak');
             $table->date('tutup_kontrak');
             $table->decimal('nominal_pembayaran', 12, 2);
+            $table->text('deskripsi');
             $table->timestamps();
         });
     }

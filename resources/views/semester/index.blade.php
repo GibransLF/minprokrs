@@ -68,6 +68,11 @@
                                 </th>
                                 <th>
                                     <span class="flex items-center">
+                                        Deskripsi Pembayaran
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="flex items-center">
                                         status
                                     </span>
                                 </th>
@@ -90,6 +95,7 @@
                                 <td>{{ date('d-m-Y', strtotime($semester->mulai_kontrak)) }} - {{ date('d-m-Y',
                                     strtotime($semester->tutup_kontrak)) }}</td>
                                 <td>Rp.{{ number_format($semester->nominal_pembayaran ,2,",",".") }}</td>
+                                <td>{{ $semester->deskripsi }}</td>
                                 <td>
                                     @if(now() >= $semester->mulai_kontrak && now() <= $semester->tutup_kontrak)
                                         <span
@@ -104,9 +110,12 @@
                                         @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('jadwalPerkuliahan', $semester->id) }}"
-                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Jadwal
-                                        Kuliah</a>
+                                    <a href="{{ route('jadwalPerkuliahan', $semester->id) }}">
+                                        <button
+                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Jadwal
+                                            Kuliah
+                                        </button>
+                                    </a>
                                     &nbsp;
                                     <button data-modal-target="edit-modal{{$semester->id}}"
                                         data-modal-toggle="edit-modal{{$semester->id}}" type="button"

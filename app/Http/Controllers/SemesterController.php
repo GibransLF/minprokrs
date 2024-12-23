@@ -35,6 +35,7 @@ class SemesterController extends Controller
             'mulai_kontrak'=> ['required','date'],
             'tutup_kontrak' => ['required','date'],
             'nominal_pembayaran' => ['required', 'numeric'],
+            'deskripsi' => 'required',
         ]);
 
         $mulai_kontrak = date('Y-m-d', strtotime($request->mulai_kontrak));
@@ -46,6 +47,7 @@ class SemesterController extends Controller
         $semester->mulai_kontrak = $mulai_kontrak;
         $semester->tutup_kontrak = $tutup_kontrak;
         $semester->nominal_pembayaran = $request->nominal_pembayaran;
+        $semester->deskripsi = $request->deskripsi;
         $semester->save();
 
         return redirect()->back()->with('success', 'Semester berhasil ditambahkan');
@@ -78,6 +80,7 @@ class SemesterController extends Controller
             'mulai_kontrak'=> ['required','date'],
             'tutup_kontrak' => ['required','date'],
             'nominal_pembayaran' => ['required', 'numeric'],
+            'deskripsi' => 'required',
         ]);
 
         $mulai_kontrak = date('Y-m-d', strtotime($request->mulai_kontrak));
@@ -89,6 +92,7 @@ class SemesterController extends Controller
         $semester->mulai_kontrak = $mulai_kontrak;
         $semester->tutup_kontrak = $tutup_kontrak;
         $semester->nominal_pembayaran = $request->nominal_pembayaran;
+        $semester->deskripsi = $request->deskripsi;
         $semester->save();
 
         return redirect()->back()->with('success', 'Semester berhasil diubah');
