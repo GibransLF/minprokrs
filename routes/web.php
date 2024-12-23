@@ -13,6 +13,7 @@ use App\Http\Controllers\MataKuiiahController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -87,6 +88,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/jadwalPerkuliahan/store/{id}', [JadwalPerkuliahanController::class, 'store'])->name('jadwalPerkuliahan.store');
         Route::patch('/jadwalPerkuliahan/update/{id}', [JadwalPerkuliahanController::class, 'update'])->name('jadwalPerkuliahan.update');
         Route::delete('/jadwalPerkuliahan/destroy/{id}', [JadwalPerkuliahanController::class, 'destroy'])->name('jadwalPerkuliahan.destroy');
+
+        //setting
+        Route::get('/setting', [SettingsController::class, 'index'])->name('setting');
+        Route::post('/setting/updateLogo', [SettingsController::class, 'updateLogo'])->name('setting.updateLogo');
+        Route::post('/setting/updateSvg', [SettingsController::class, 'updateSvg'])->name('setting.updateSvg');
     });
 
     Route::group(['middleware' => ['role:mahasiswa']], function () {
