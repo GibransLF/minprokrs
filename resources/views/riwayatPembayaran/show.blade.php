@@ -158,6 +158,11 @@
                             </table>
                         </div>
                         <footer class="mt-1">
+                            <label for="deskripsi"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi detal
+                                pembayaran</label>
+                            <textarea id="deskripsi" name="deskripsi" rows="4" disabled
+                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{$riwayatPembayaran->semester->deskripsi}}</textarea>
                             <hr class="h-px bg-gray-400 border-0 dark:bg-gray-700">
                             <div class="flex justify-between items-center font-bold text-lg">
                                 <span class="text-gray-700 dark:text-gray-400 text-green-500">Total
@@ -166,6 +171,48 @@
                                     class="text-gray-700 dark:text-gray-400 text-green-500">Rp.{{number_format($riwayatPembayaran->semester->nominal_pembayaran,
                                     2, ',', '.') }}</span>
                             </div>
+
+                            <br>
+                            <hr class="h-px bg-gray-400 border-0 dark:bg-gray-700 mb-2">
+
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead
+                                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                Transfer
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Nomor Rekening / Transfer
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                BCA
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                1234567890
+                                            </td>
+                                        </tr>
+                                        <tr
+                                            class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                DANA
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                1234567890
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </footer>
                         @role('admin')
                         @if ($riwayatPembayaran->status == 'pending')
